@@ -1,2 +1,2 @@
 # Capstone-Project
-Udacity Android Capstone
+Udacity Android Developer Nanodegree Capstone Project
