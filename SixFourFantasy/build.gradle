@@ -32,6 +32,7 @@ ext {
 
     // App dependencies
     supportLibraryVersion = '25.1.0'
+    guavaVersion = '18.0'
     junitVersion = '4.12'
     espressoVersion = '2.2.2'
 }
