@@ -1,14 +1,16 @@
-package com.example.shubham.sixfourfantasy.data;
+package com.example.shubham.sixfourfantasy.data.source.local;
 
 import android.support.annotation.NonNull;
 
+import com.example.shubham.sixfourfantasy.data.MatchesDataSource;
 import com.example.shubham.sixfourfantasy.data.model.Match;
 
 import java.util.List;
 
 import rx.Observable;
 
-public class MatchesRepository implements MatchesDataSource {
+
+public class MatchesLocalDataSource implements MatchesDataSource {
 
     @Override
     public Observable<List<Match>> getMatches() {
