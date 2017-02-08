@@ -31,36 +31,36 @@ public class MatchesPersistenceContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + SEPARATOR + CONTENT_AUTHORITY + SEPARATOR + TABLE_NAME;
 
-        public static final String COLUMN_NAME_MATCH_ID = "match_id";
-        public static final String COLUMN_NAME_NAME = "name";
-        public static final String COLUMN_NAME_TEAM1_ID = "team1_id";
-        public static final String COLUMN_NAME_team2_ID = "team2_id";
-        public static final String COLUMN_NAME_IS_WOMEN = "is_women";
-        public static final String COLUMN_NAME_STATUS = "status";
-        public static final String COLUMN_NAME_VENUE = "venue";
-        public static final String COLUMN_NAME_SERIES = "series";
-        public static final String COLUMN_NAME_START_TIME = "start_time";
-        public static final String COLUMN_NAME_WINNING_TEAM_ID = "winning_team_id";
-        public static final String COLUMN_NAME_RESULT = "result";
-        public static final String COLUMN_NAME_TEAM1_SCORE = "team1_score";
-        public static final String COLUMN_NAME_TEAM2_SCORE = "team2_score";
+        public static final String COL_MATCH_ID = "match_id";
+        public static final String COL_NAME = "name";
+        public static final String COL_TEAM1_ID = "team1_id";
+        public static final String COL_TEAM2_ID = "team2_id";
+        public static final String COL_IS_WOMEN = "is_women";
+        public static final String COL_STATUS = "status";
+        public static final String COL_VENUE = "venue";
+        public static final String COL_SERIES = "series";
+        public static final String COL_START_TIME = "start_time";
+        public static final String COL_WINNING_TEAM_ID = "winning_team_id";
+        public static final String COL_RESULT = "result";
+        public static final String COL_TEAM1_SCORE = "team1_score";
+        public static final String COL_TEAM2_SCORE = "team2_score";
 
 
         public static String[] MATCHES_COLUMNS = new String[]{
                 MatchEntry._ID,
-                COLUMN_NAME_MATCH_ID,
-                COLUMN_NAME_NAME,
-                COLUMN_NAME_TEAM1_ID,
-                COLUMN_NAME_team2_ID,
-                COLUMN_NAME_IS_WOMEN,
-                COLUMN_NAME_STATUS,
-                COLUMN_NAME_VENUE,
-                COLUMN_NAME_SERIES,
-                COLUMN_NAME_START_TIME,
-                COLUMN_NAME_WINNING_TEAM_ID,
-                COLUMN_NAME_RESULT,
-                COLUMN_NAME_TEAM1_SCORE,
-                COLUMN_NAME_TEAM2_SCORE};
+                COL_MATCH_ID,
+                COL_NAME,
+                COL_TEAM1_ID,
+                COL_TEAM2_ID,
+                COL_IS_WOMEN,
+                COL_STATUS,
+                COL_VENUE,
+                COL_SERIES,
+                COL_START_TIME,
+                COL_WINNING_TEAM_ID,
+                COL_RESULT,
+                COL_TEAM1_SCORE,
+                COL_TEAM2_SCORE};
 
         public static Uri buildMatchesUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
@@ -86,19 +86,21 @@ public class MatchesPersistenceContract {
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + SEPARATOR + CONTENT_AUTHORITY + SEPARATOR + TABLE_NAME;
 
 
-        public static final String COLUMN_NAME_MATCH_ID = "match_id";
-        public static final String COLUMN_NAME_INNINGS_NO = "innings_no";
-        public static final String COLUMN_NAME_BATTING_TEAM_ID = "batting_team_id";
-        public static final String COLUMN_NAME_BATTING_ID = "batting_id";
-        public static final String COLUMN_NAME_BOWLING_ID = "bowling_id";
+        public static final String COL_MATCH_ID = "match_id";
+        public static final String COL_INNINGS_NO = "innings_no";
+        public static final String COL_BATTING_TEAM_ID = "batting_team_id";
+        public static final String COL_BOWLING_TEAM_ID = "bowling_team_id";
+        public static final String COL_BATTING_SCORE_ID = "batting_score_id";
+        public static final String COL_BOWLING_SCORE_ID = "bowling_score_id";
 
         public static String[] SCORES_COLUMNS = new String[]{
                 ScoreEntry._ID,
-                COLUMN_NAME_MATCH_ID,
-                COLUMN_NAME_INNINGS_NO,
-                COLUMN_NAME_BATTING_TEAM_ID,
-                COLUMN_NAME_BATTING_ID,
-                COLUMN_NAME_BOWLING_ID};
+                COL_MATCH_ID,
+                COL_INNINGS_NO,
+                COL_BATTING_TEAM_ID,
+                COL_BOWLING_TEAM_ID,
+                COL_BATTING_SCORE_ID,
+                COL_BOWLING_SCORE_ID};
 
         public static Uri buildScoresUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
@@ -123,25 +125,25 @@ public class MatchesPersistenceContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + SEPARATOR + CONTENT_AUTHORITY + SEPARATOR + TABLE_NAME;
 
-        public static final String COLUMN_NAME_PLAYER_ID = "player_id";
-        public static final String COLUMN_NAME_RUNS = "runs";
-        public static final String COLUMN_NAME_BALLS = "balls";
-        public static final String COLUMN_NAME_FOURS = "fours";
-        public static final String COLUMN_NAME_SIXES = "sixes";
-        public static final String COLUMN_NAME_STRIKE_RATE = "strike_rate";
-        public static final String COLUMN_NAME_FOW = "fow";
-        public static final String COLUMN_NAME_OUT = "out";
+        public static final String COL_PLAYER_ID = "player_id";
+        public static final String COL_RUNS = "runs";
+        public static final String COL_BALLS = "balls";
+        public static final String COL_FOURS = "fours";
+        public static final String COL_SIXES = "sixes";
+        public static final String COL_STRIKE_RATE = "strike_rate";
+        public static final String COL_FOW = "fow";
+        public static final String COL_OUT = "out";
 
         public static String[] RUNS_COLUMNS = new String[]{
                 RunsEntry._ID,
-                COLUMN_NAME_PLAYER_ID,
-                COLUMN_NAME_RUNS,
-                COLUMN_NAME_BALLS,
-                COLUMN_NAME_FOURS,
-                COLUMN_NAME_SIXES,
-                COLUMN_NAME_STRIKE_RATE,
-                COLUMN_NAME_FOW,
-                COLUMN_NAME_OUT};
+                COL_PLAYER_ID,
+                COL_RUNS,
+                COL_BALLS,
+                COL_FOURS,
+                COL_SIXES,
+                COL_STRIKE_RATE,
+                COL_FOW,
+                COL_OUT};
 
         public static Uri buildRunsUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
@@ -165,25 +167,25 @@ public class MatchesPersistenceContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + SEPARATOR + CONTENT_AUTHORITY + SEPARATOR + TABLE_NAME;
 
-        public static final String COLUMN_NAME_PLAYER_ID = "player_id";
-        public static final String COLUMN_NAME_RUNS = "runs";
-        public static final String COLUMN_NAME_OVERS = "overs";
-        public static final String COLUMN_NAME_MAIDEN = "maiden";
-        public static final String COLUMN_NAME_WICKETS = "wickets";
-        public static final String COLUMN_NAME_ECONOMY = "economy";
-        public static final String COLUMN_NAME_NO_BALLS = "no_balls";
-        public static final String COLUMN_NAME_WIDE_BALLS = "wide_balls";
+        public static final String COL_PLAYER_ID = "player_id";
+        public static final String COL_RUNS = "runs";
+        public static final String COL_OVERS = "overs";
+        public static final String COL_MAIDEN = "maiden";
+        public static final String COL_WICKETS = "wickets";
+        public static final String COL_ECONOMY = "economy";
+        public static final String COL_NO_BALLS = "no_balls";
+        public static final String COL_WIDE_BALLS = "wide_balls";
 
         public static String[] WICKETS_COLUMNS = new String[]{
                 WicketsEntry._ID,
-                COLUMN_NAME_PLAYER_ID,
-                COLUMN_NAME_RUNS,
-                COLUMN_NAME_OVERS,
-                COLUMN_NAME_MAIDEN,
-                COLUMN_NAME_WICKETS,
-                COLUMN_NAME_ECONOMY,
-                COLUMN_NAME_NO_BALLS,
-                COLUMN_NAME_WIDE_BALLS};
+                COL_PLAYER_ID,
+                COL_RUNS,
+                COL_OVERS,
+                COL_MAIDEN,
+                COL_WICKETS,
+                COL_ECONOMY,
+                COL_NO_BALLS,
+                COL_WIDE_BALLS};
 
         public static Uri buildWicketsUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
@@ -207,17 +209,17 @@ public class MatchesPersistenceContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + SEPARATOR + CONTENT_AUTHORITY + SEPARATOR + TABLE_NAME;
 
-        public static final String COLUMN_NAME_TEAM_ID = "team_id";
-        public static final String COLUMN_NAME_NAME = "name";
-        public static final String COLUMN_NAME_IMAGE = "image";
-        public static final String COLUMN_NAME_SYMBOL = "symbol";
+        public static final String COL_TEAM_ID = "team_id";
+        public static final String COL_NAME = "name";
+        public static final String COL_IMAGE = "image";
+        public static final String COL_SYMBOL = "symbol";
 
         public static String[] WICKETS_COLUMNS = new String[]{
                 TeamEntry._ID,
-                COLUMN_NAME_TEAM_ID,
-                COLUMN_NAME_NAME,
-                COLUMN_NAME_IMAGE,
-                COLUMN_NAME_SYMBOL};
+                COL_TEAM_ID,
+                COL_NAME,
+                COL_IMAGE,
+                COL_SYMBOL};
 
         public static Uri buildTeamsUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
@@ -241,18 +243,18 @@ public class MatchesPersistenceContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + SEPARATOR + CONTENT_AUTHORITY + SEPARATOR + TABLE_NAME;
 
-        public static final String COLUMN_NAME_PLAYER_ID = "player_id";
-        public static final String COLUMN_NAME_NAME = "name";
-        public static final String COLUMN_NAME_IMAGE = "image";
-        public static final String COLUMN_NAME_TYPE = "type";
+        public static final String COL_PLAYER_ID = "player_id";
+        public static final String COL_NAME = "name";
+        public static final String COL_IMAGE = "image";
+        public static final String COL_TYPE = "type";
 
 
         public static String[] WICKETS_COLUMNS = new String[]{
                 PlayerEntry._ID,
-                COLUMN_NAME_PLAYER_ID,
-                COLUMN_NAME_NAME,
-                COLUMN_NAME_IMAGE,
-                COLUMN_NAME_TYPE};
+                COL_PLAYER_ID,
+                COL_NAME,
+                COL_IMAGE,
+                COL_TYPE};
 
         public static Uri buildPlayersUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
@@ -276,14 +278,14 @@ public class MatchesPersistenceContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + SEPARATOR + CONTENT_AUTHORITY + SEPARATOR + TABLE_NAME;
 
-        public static final String COLUMN_NAME_TEAM_ID = "team_id";
-        public static final String COLUMN_NAME_PLAYER_ID = "player_id";
+        public static final String COL_TEAM_ID = "team_id";
+        public static final String COL_PLAYER_ID = "player_id";
 
 
         public static String[] TEAM_HAS_PLAYERS_COLUMNS = new String[]{
                 TeamHasPlayersEntry._ID,
-                COLUMN_NAME_TEAM_ID,
-                COLUMN_NAME_PLAYER_ID};
+                COL_TEAM_ID,
+                COL_PLAYER_ID};
 
         public static Uri buildTeamHasPlayersUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
