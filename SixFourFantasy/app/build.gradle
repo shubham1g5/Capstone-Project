@@ -27,7 +27,7 @@ android {
     }
 
     buildTypes.each {
-        it.buildConfigField 'String', 'CRICKET_SCORE_API_KEY', MyMovieDbApiKey
+        it.buildConfigField 'String', 'CRICKET_SCORE_API_KEY', MyCricketScoreApiKey
     }
 
     dataBinding {
@@ -47,7 +47,9 @@ dependencies {
     // Reactive libs
     compile "io.reactivex.rxjava2:rxjava:$rootProject.rxjavaVersion"
     compile "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroidVersion"
-    compile "com.squareup.sqlbrite:sqlbrite:$rootProject.sqlbriteVersion"
+    compile ("com.squareup.sqlbrite:sqlbrite:$rootProject.sqlbriteVersion", {
+        exclude group: 'io.reactivex', module: 'rxjava'
+    })
 
     testCompile "junit:junit:$rootProject.ext.junitVersion"
 

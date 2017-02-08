@@ -6,7 +6,7 @@ import com.example.shubham.sixfourfantasy.data.model.Match;
 
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
 public class MatchesRepository implements MatchesDataSource {
 
