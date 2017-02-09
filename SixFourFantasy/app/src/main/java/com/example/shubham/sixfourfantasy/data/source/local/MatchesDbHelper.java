@@ -6,11 +6,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.MatchEntry;
 import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.PlayerEntry;
-import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.RunsEntry;
+import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.RunEntry;
 import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.ScoreEntry;
 import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.TeamEntry;
-import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.TeamHasPlayersEntry;
-import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.WicketsEntry;
+import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.TeamHasPlayerEntry;
+import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.WicketEntry;
 
 public class MatchesDbHelper extends SQLiteOpenHelper {
 
@@ -86,37 +86,37 @@ public class MatchesDbHelper extends SQLiteOpenHelper {
                 TeamEntry.TABLE_NAME + OPENING_BRACKET + TeamEntry.COL_TEAM_ID + CLOSING_BRACKET_COMMA +
 
                 FOREIGN_KEY + ScoreEntry.COL_BATTING_SCORE_ID + REFERENCES +
-                RunsEntry.TABLE_NAME + OPENING_BRACKET + RunsEntry._ID + CLOSING_BRACKET_COMMA +
+                RunEntry.TABLE_NAME + OPENING_BRACKET + RunEntry._ID + CLOSING_BRACKET_COMMA +
 
                 FOREIGN_KEY + ScoreEntry.COL_BOWLING_SCORE_ID + REFERENCES +
-                WicketsEntry.TABLE_NAME + OPENING_BRACKET + WicketsEntry._ID + CLOSING_BRACKET;
+                WicketEntry.TABLE_NAME + OPENING_BRACKET + WicketEntry._ID + CLOSING_BRACKET;
 
-        final String SQL_CREATE_RUNS_TABLE = CREATE_TABLE + RunsEntry.TABLE_NAME + OPENING_BRACKET +
-                RunsEntry._ID + INTEGER_TYPE + PRIMARY_KEY + COMMA_SEP +
-                RunsEntry.COL_PLAYER_ID + INTEGER_TYPE + COMMA_SEP +
-                RunsEntry.COL_RUNS + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
-                RunsEntry.COL_BALLS + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
-                RunsEntry.COL_FOURS + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
-                RunsEntry.COL_SIXES + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
-                RunsEntry.COL_STRIKE_RATE + FLOAT_TYPE + NOT_NULL + COMMA_SEP +
-                RunsEntry.COL_FOW + TEXT_TYPE + NOT_NULL + COMMA_SEP +
-                RunsEntry.COL_OUT + TEXT_TYPE + NOT_NULL + COMMA_SEP +
+        final String SQL_CREATE_RUN_TABLE = CREATE_TABLE + RunEntry.TABLE_NAME + OPENING_BRACKET +
+                RunEntry._ID + INTEGER_TYPE + PRIMARY_KEY + COMMA_SEP +
+                RunEntry.COL_PLAYER_ID + INTEGER_TYPE + COMMA_SEP +
+                RunEntry.COL_RUNS + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
+                RunEntry.COL_BALLS + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
+                RunEntry.COL_FOURS + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
+                RunEntry.COL_SIXES + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
+                RunEntry.COL_STRIKE_RATE + FLOAT_TYPE + NOT_NULL + COMMA_SEP +
+                RunEntry.COL_FOW + TEXT_TYPE + NOT_NULL + COMMA_SEP +
+                RunEntry.COL_OUT + TEXT_TYPE + NOT_NULL + COMMA_SEP +
 
-                FOREIGN_KEY + RunsEntry.COL_PLAYER_ID + REFERENCES +
+                FOREIGN_KEY + RunEntry.COL_PLAYER_ID + REFERENCES +
                 PlayerEntry.TABLE_NAME + OPENING_BRACKET + PlayerEntry.COL_PLAYER_ID + CLOSING_BRACKET;
 
-        final String SQL_CREATE_WICKETS_TABLE = CREATE_TABLE + WicketsEntry.TABLE_NAME + OPENING_BRACKET +
-                WicketsEntry._ID + INTEGER_TYPE + PRIMARY_KEY + COMMA_SEP +
-                WicketsEntry.COL_PLAYER_ID + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
-                WicketsEntry.COL_RUNS + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
-                WicketsEntry.COL_OVERS + FLOAT_TYPE + NOT_NULL + COMMA_SEP +
-                WicketsEntry.COL_MAIDEN + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
-                WicketsEntry.COL_WICKETS + FLOAT_TYPE + NOT_NULL + COMMA_SEP +
-                WicketsEntry.COL_ECONOMY + FLOAT_TYPE + NOT_NULL + COMMA_SEP +
-                WicketsEntry.COL_NO_BALLS + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
-                WicketsEntry.COL_WIDE_BALLS + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
+        final String SQL_CREATE_WICKET_TABLE = CREATE_TABLE + WicketEntry.TABLE_NAME + OPENING_BRACKET +
+                WicketEntry._ID + INTEGER_TYPE + PRIMARY_KEY + COMMA_SEP +
+                WicketEntry.COL_PLAYER_ID + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
+                WicketEntry.COL_RUNS + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
+                WicketEntry.COL_OVERS + FLOAT_TYPE + NOT_NULL + COMMA_SEP +
+                WicketEntry.COL_MAIDEN + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
+                WicketEntry.COL_WICKETS + FLOAT_TYPE + NOT_NULL + COMMA_SEP +
+                WicketEntry.COL_ECONOMY + FLOAT_TYPE + NOT_NULL + COMMA_SEP +
+                WicketEntry.COL_NO_BALLS + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
+                WicketEntry.COL_WIDE_BALLS + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
 
-                FOREIGN_KEY + WicketsEntry.COL_PLAYER_ID + REFERENCES +
+                FOREIGN_KEY + WicketEntry.COL_PLAYER_ID + REFERENCES +
                 PlayerEntry.TABLE_NAME + OPENING_BRACKET + PlayerEntry.COL_PLAYER_ID + CLOSING_BRACKET;
 
         final String SQL_CREATE_TEAM_TABLE = CREATE_TABLE + TeamEntry.TABLE_NAME + OPENING_BRACKET +
@@ -133,22 +133,22 @@ public class MatchesDbHelper extends SQLiteOpenHelper {
                 PlayerEntry.COL_IMAGE + TEXT_TYPE + NOT_NULL + UNIQUE + COMMA_SEP +
                 PlayerEntry.COL_TYPE + TEXT_TYPE + NOT_NULL + CLOSING_BRACKET;
 
-        final String SQL_CREATE_TEAM_HAS_PLAYER_TABLE = CREATE_TABLE + TeamHasPlayersEntry.TABLE_NAME + OPENING_BRACKET +
-                TeamHasPlayersEntry._ID + INTEGER_TYPE + PRIMARY_KEY + COMMA_SEP +
-                TeamHasPlayersEntry.COL_TEAM_ID + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
-                TeamHasPlayersEntry.COL_PLAYER_ID + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
+        final String SQL_CREATE_TEAM_HAS_PLAYER_TABLE = CREATE_TABLE + TeamHasPlayerEntry.TABLE_NAME + OPENING_BRACKET +
+                TeamHasPlayerEntry._ID + INTEGER_TYPE + PRIMARY_KEY + COMMA_SEP +
+                TeamHasPlayerEntry.COL_TEAM_ID + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
+                TeamHasPlayerEntry.COL_PLAYER_ID + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
 
-                FOREIGN_KEY + TeamHasPlayersEntry.COL_TEAM_ID + REFERENCES +
+                FOREIGN_KEY + TeamHasPlayerEntry.COL_TEAM_ID + REFERENCES +
                 TeamEntry.TABLE_NAME + OPENING_BRACKET + TeamEntry.COL_TEAM_ID + CLOSING_BRACKET_COMMA +
 
-                FOREIGN_KEY + TeamHasPlayersEntry.COL_PLAYER_ID + REFERENCES +
+                FOREIGN_KEY + TeamHasPlayerEntry.COL_PLAYER_ID + REFERENCES +
                 PlayerEntry.TABLE_NAME + OPENING_BRACKET + PlayerEntry.COL_PLAYER_ID + CLOSING_BRACKET;
 
         String[] createStmts = new String[]{
                 SQL_CREATE_MATCH_TABLE,
                 SQL_CREATE_SCORE_TABLE,
-                SQL_CREATE_RUNS_TABLE,
-                SQL_CREATE_WICKETS_TABLE,
+                SQL_CREATE_RUN_TABLE,
+                SQL_CREATE_WICKET_TABLE,
                 SQL_CREATE_TEAM_TABLE,
                 SQL_CREATE_PLAYER_TABLE,
                 SQL_CREATE_TEAM_HAS_PLAYER_TABLE
@@ -163,13 +163,20 @@ public class MatchesDbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This database is only a cache for online data
         // Simply discard the data and start over
-        db.execSQL(DROP_TABLE_IF_EXISTS + MatchEntry.TABLE_NAME);
-        db.execSQL(DROP_TABLE_IF_EXISTS + ScoreEntry.TABLE_NAME);
-        db.execSQL(DROP_TABLE_IF_EXISTS + RunsEntry.TABLE_NAME);
-        db.execSQL(DROP_TABLE_IF_EXISTS + WicketsEntry.TABLE_NAME);
-        db.execSQL(DROP_TABLE_IF_EXISTS + TeamEntry.TABLE_NAME);
-        db.execSQL(DROP_TABLE_IF_EXISTS + PlayerEntry.TABLE_NAME);
-        db.execSQL(DROP_TABLE_IF_EXISTS + TeamHasPlayersEntry.TABLE_NAME);
+
+        String[] tables = new String[]{
+                ScoreEntry.TABLE_NAME,
+                ScoreEntry.TABLE_NAME,
+                RunEntry.TABLE_NAME,
+                WicketEntry.TABLE_NAME,
+                TeamEntry.TABLE_NAME,
+                PlayerEntry.TABLE_NAME,
+                TeamHasPlayerEntry.TABLE_NAME
+        };
+
+        for (String table : tables) {
+            db.execSQL(DROP_TABLE_IF_EXISTS + table);
+        }
         onCreate(db);
     }
 }

@@ -113,9 +113,9 @@ public class MatchesPersistenceContract {
     }
 
 
-    public static abstract class RunsEntry implements BaseColumns {
+    public static abstract class RunEntry implements BaseColumns {
 
-        public static final String TABLE_NAME = "runs";
+        public static final String TABLE_NAME = "run";
 
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(TABLE_NAME).build();
 
@@ -135,7 +135,7 @@ public class MatchesPersistenceContract {
         public static final String COL_OUT = "out";
 
         public static String[] RUNS_COLUMNS = new String[]{
-                RunsEntry._ID,
+                RunEntry._ID,
                 COL_PLAYER_ID,
                 COL_RUNS,
                 COL_BALLS,
@@ -155,9 +155,9 @@ public class MatchesPersistenceContract {
 
     }
 
-    public static abstract class WicketsEntry implements BaseColumns {
+    public static abstract class WicketEntry implements BaseColumns {
 
-        public static final String TABLE_NAME = "wickets";
+        public static final String TABLE_NAME = "wicket";
 
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(TABLE_NAME).build();
 
@@ -177,7 +177,7 @@ public class MatchesPersistenceContract {
         public static final String COL_WIDE_BALLS = "wide_balls";
 
         public static String[] WICKETS_COLUMNS = new String[]{
-                WicketsEntry._ID,
+                WicketEntry._ID,
                 COL_PLAYER_ID,
                 COL_RUNS,
                 COL_OVERS,
@@ -214,7 +214,7 @@ public class MatchesPersistenceContract {
         public static final String COL_IMAGE = "image";
         public static final String COL_SYMBOL = "symbol";
 
-        public static String[] WICKETS_COLUMNS = new String[]{
+        public static String[] TEAMS_COLUMNS = new String[]{
                 TeamEntry._ID,
                 COL_TEAM_ID,
                 COL_NAME,
@@ -249,7 +249,7 @@ public class MatchesPersistenceContract {
         public static final String COL_TYPE = "type";
 
 
-        public static String[] WICKETS_COLUMNS = new String[]{
+        public static String[] PLAYERS_COLUMNS = new String[]{
                 PlayerEntry._ID,
                 COL_PLAYER_ID,
                 COL_NAME,
@@ -266,9 +266,9 @@ public class MatchesPersistenceContract {
 
     }
 
-    public static abstract class TeamHasPlayersEntry implements BaseColumns {
+    public static abstract class TeamHasPlayerEntry implements BaseColumns {
 
-        public static final String TABLE_NAME = "team_has_palyers";
+        public static final String TABLE_NAME = "team_has_palyer";
 
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(TABLE_NAME).build();
 
@@ -283,7 +283,7 @@ public class MatchesPersistenceContract {
 
 
         public static String[] TEAM_HAS_PLAYERS_COLUMNS = new String[]{
-                TeamHasPlayersEntry._ID,
+                TeamHasPlayerEntry._ID,
                 COL_TEAM_ID,
                 COL_PLAYER_ID};
 

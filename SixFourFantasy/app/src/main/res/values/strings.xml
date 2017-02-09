@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SixFourFantasy</string>
+    <string name="content_authority">com.example.shubham.sixfourfantasy</string>
 </resources>
