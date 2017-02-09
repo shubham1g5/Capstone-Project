@@ -34,9 +34,10 @@ ext {
     supportLibraryVersion = '25.1.0'
     guavaVersion = '18.0'
     stethoVersion = '1.4.2'
-    rxjavaVersion = '2.0.5'
-    rxandroidVersion = '2.0.1'
     sqlbriteVersion = '1.1.1'
+    firebaseJobDispatcherVersion = '0.5.2'
+    picassoVersion = '2.5.2'
+    retrofitVersion = '2.1.0'
 
     // Test
     junitVersion = '4.12'

@@ -42,15 +42,19 @@ dependencies {
     compile "com.android.support:design:$rootProject.supportLibraryVersion"
     compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
     compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+
     compile "com.google.guava:guava:$rootProject.guavaVersion"
     compile "com.facebook.stetho:stetho:$rootProject.stethoVersion"
+    compile "com.squareup.picasso:picasso:$rootProject.picassoVersion"
+    compile "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
+    compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.retrofitVersion"
+
+    // Firebase
+    compile "com.firebase:firebase-jobdispatcher:$rootProject.firebaseJobDispatcherVersion"
 
     // Reactive libs
-    compile "io.reactivex.rxjava2:rxjava:$rootProject.rxjavaVersion"
-    compile "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroidVersion"
-    compile ("com.squareup.sqlbrite:sqlbrite:$rootProject.sqlbriteVersion", {
-        exclude group: 'io.reactivex', module: 'rxjava'
-    })
+    compile "com.squareup.sqlbrite:sqlbrite:$rootProject.sqlbriteVersion"
 
     testCompile "junit:junit:$rootProject.ext.junitVersion"
 
