@@ -6,7 +6,7 @@ import com.example.shubham.sixfourfantasy.data.model.Match;
 
 import java.util.List;
 
-import io.reactivex.Observable;
+import rx.Observable;
 
 /**
  * Interface for common data functions such as get list of matches,

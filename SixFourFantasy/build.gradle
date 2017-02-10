@@ -38,6 +38,7 @@ ext {
     firebaseJobDispatcherVersion = '0.5.2'
     picassoVersion = '2.5.2'
     retrofitVersion = '2.1.0'
+    moshiVersion = '1.4.0'
 
     // Test
     junitVersion = '4.12'

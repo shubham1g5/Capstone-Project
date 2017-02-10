@@ -2,28 +2,32 @@ package com.example.shubham.sixfourfantasy.network;
 
 import android.support.annotation.NonNull;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.example.shubham.sixfourfantasy.BuildConfig;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.moshi.MoshiConverterFactory;
 
 class RetrofitServiceGenerator {
 
     private static final String BASE_URL = "https://dev132-cricket-live-scores-v1.p.mashape.com/";
 
     @NonNull
-    private static final Gson gson = new GsonBuilder()
-            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-            .create();
+    private static final OkHttpClient client = new OkHttpClient.Builder()
+            .addInterceptor(chain -> {
+                Request request = chain.request().newBuilder()
+                        .addHeader("X-Mashape-Key", BuildConfig.CRICKET_SCORE_API_KEY).build();
+                return chain.proceed(request);
+            }).build();
 
     @NonNull
     private static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(MoshiConverterFactory.create())
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .client(client)
             .build();
 
     public static <T> T createService(@NonNull Class<T> serviceClass) {
