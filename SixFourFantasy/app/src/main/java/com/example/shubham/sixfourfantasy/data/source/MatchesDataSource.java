@@ -1,4 +1,4 @@
-package com.example.shubham.sixfourfantasy.data;
+package com.example.shubham.sixfourfantasy.data.source;
 
 import android.support.annotation.NonNull;
 
@@ -19,5 +19,7 @@ public interface MatchesDataSource {
     Observable<List<Match>> getMatches();
 
     Observable<Match> getMatch(@NonNull String matchId);
+
+    void saveMatch(Match match);
 
 }

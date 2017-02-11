@@ -88,7 +88,8 @@ public class MatchesSyncUtils {
                 false);
         matchesQuery.count().subscribe(count -> {
            if(count == 0){
-              MatchesSyncTask.syncMatches(context);
+               // TODO: 11/2/17  
+//              MatchesSyncTask.syncMatches(context);
            }
         });
     }

@@ -1,0 +1,21 @@
+package com.example.shubham.sixfourfantasy;
+
+import android.content.Context;
+
+import dagger.Module;
+import dagger.Provides;
+
+@Module
+public class ApplicationModule {
+
+    private final Context mContext;
+
+    ApplicationModule(Context context) {
+        this.mContext = context;
+    }
+
+    @Provides
+    Context provideContext() {
+        return mContext;
+    }
+}

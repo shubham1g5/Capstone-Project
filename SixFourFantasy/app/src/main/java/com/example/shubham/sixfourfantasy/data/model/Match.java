@@ -3,55 +3,34 @@ package com.example.shubham.sixfourfantasy.data.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Match implements Parcelable{
+public class Match implements Parcelable {
 
-    public final int matchId;
-    public final String name;
-    public final int team1Id;
-    public final int team2Id;
-    public final boolean isWomen;
-    public final MatchStatus status;
-    public final String venue;
-    public final String series;
-    public final String startTime;
-    public final int winningTeamId;
-    public final String result;
-    public final String team1Score;
-    public final String team2Score;
+    public int matchId;
+    public String name;
+    public Team team1;
+    public Team team2;
+    public boolean isWomen;
+    public MatchStatus status;
+    public String venue;
+    public String series;
+    public String startTime;
+    public int winningTeamId;
+    public String result;
+    public String team1Score;
+    public String team2Score;
+    public MatchFormat format;
+    public int matchTypeId;
 
-    public Match(int matchId,
-                 String name,
-                 int team1Id,
-                 int team2Id,
-                 boolean isWomen,
-                 MatchStatus status,
-                 String venue,
-                 String series,
-                 String startTime,
-                 int winningTeamId,
-                 String result,
-                 String team1Score,
-                 String team2Score) {
-        this.matchId = matchId;
-        this.name = name;
-        this.team1Id = team1Id;
-        this.team2Id = team2Id;
-        this.isWomen = isWomen;
-        this.status = status;
-        this.venue = venue;
-        this.series = series;
-        this.startTime = startTime;
-        this.winningTeamId = winningTeamId;
-        this.result = result;
-        this.team1Score = team1Score;
-        this.team2Score = team2Score;
+
+    public Match() {
+        // Empty Constructor for MatchJsonAdapter
     }
 
     protected Match(Parcel in) {
         matchId = in.readInt();
         name = in.readString();
-        team1Id = in.readInt();
-        team2Id = in.readInt();
+        team1 = in.readParcelable(Team.class.getClassLoader());
+        team2 = in.readParcelable(Team.class.getClassLoader());
         isWomen = in.readByte() != 0;
         status = MatchStatus.valueOf(in.readString());
         venue = in.readString();
@@ -61,6 +40,8 @@ public class Match implements Parcelable{
         result = in.readString();
         team1Score = in.readString();
         team2Score = in.readString();
+        format = MatchFormat.valueOf(in.readString());
+        matchTypeId = in.readInt();
     }
 
     public static final Creator<Match> CREATOR = new Creator<Match>() {
@@ -84,8 +65,8 @@ public class Match implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(matchId);
         dest.writeString(name);
-        dest.writeInt(team1Id);
-        dest.writeInt(team2Id);
+        dest.writeParcelable(team1, flags);
+        dest.writeParcelable(team2, flags);
         dest.writeByte((byte) (isWomen ? 1 : 0));
         dest.writeString(status.toString());
         dest.writeString(venue);
@@ -95,5 +76,7 @@ public class Match implements Parcelable{
         dest.writeString(result);
         dest.writeString(team1Score);
         dest.writeString(team2Score);
+        dest.writeString(format.toString());
+        dest.writeInt(matchTypeId);
     }
 }

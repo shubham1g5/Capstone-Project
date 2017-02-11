@@ -1,16 +1,28 @@
 package com.example.shubham.sixfourfantasy.data.source.remote;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.example.shubham.sixfourfantasy.data.MatchesDataSource;
 import com.example.shubham.sixfourfantasy.data.model.Match;
+import com.example.shubham.sixfourfantasy.data.source.MatchesDataSource;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import rx.Observable;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 
+@Singleton
 public class MatchesRemoteDataSource implements MatchesDataSource {
+
+    @Inject
+    public MatchesRemoteDataSource(@NonNull Context context) {
+        checkNotNull(context);
+    }
+
     @Override
     public Observable<List<Match>> getMatches() {
         return null;
@@ -19,5 +31,10 @@ public class MatchesRemoteDataSource implements MatchesDataSource {
     @Override
     public Observable<Match> getMatch(@NonNull String matchId) {
         return null;
+    }
+
+    @Override
+    public void saveMatch(Match match) {
+
     }
 }
