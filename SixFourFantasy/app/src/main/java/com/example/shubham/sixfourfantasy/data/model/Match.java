@@ -1,7 +1,10 @@
 package com.example.shubham.sixfourfantasy.data.model;
 
+import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract;
 
 public class Match implements Parcelable {
 
@@ -78,5 +81,24 @@ public class Match implements Parcelable {
         dest.writeString(team2Score);
         dest.writeString(format.toString());
         dest.writeInt(matchTypeId);
+    }
+
+    public ContentValues toContentValues() {
+        ContentValues values = new ContentValues();
+        values.put(MatchesPersistenceContract.MatchEntry.COL_MATCH_ID, matchId);
+        values.put(MatchesPersistenceContract.MatchEntry.COL_NAME, name);
+        values.put(MatchesPersistenceContract.MatchEntry.COL_TEAM1_ID, team1.teamId);
+        values.put(MatchesPersistenceContract.MatchEntry.COL_TEAM2_ID, team2.teamId);
+        values.put(MatchesPersistenceContract.MatchEntry.COL_IS_WOMEN, isWomen);
+        values.put(MatchesPersistenceContract.MatchEntry.COL_STATUS, status.toString());
+        values.put(MatchesPersistenceContract.MatchEntry.COL_VENUE, venue);
+        values.put(MatchesPersistenceContract.MatchEntry.COL_SERIES, series);
+        values.put(MatchesPersistenceContract.MatchEntry.COL_START_TIME, startTime);
+        values.put(MatchesPersistenceContract.MatchEntry.COL_WINNING_TEAM_ID, winningTeamId);
+        values.put(MatchesPersistenceContract.MatchEntry.COL_RESULT, result);
+        values.put(MatchesPersistenceContract.MatchEntry.COL_TEAM1_SCORE, team1Score);
+        values.put(MatchesPersistenceContract.MatchEntry.COL_TEAM2_SCORE, team2Score);
+        values.put(MatchesPersistenceContract.MatchEntry.COL_FORMAT, format.toString());
+        return values;
     }
 }

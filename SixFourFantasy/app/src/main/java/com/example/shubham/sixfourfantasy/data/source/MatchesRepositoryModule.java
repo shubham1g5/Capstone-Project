@@ -1,5 +1,6 @@
 package com.example.shubham.sixfourfantasy.data.source;
 
+import android.content.ContentResolver;
 import android.content.Context;
 
 import com.example.shubham.sixfourfantasy.data.source.local.MatchesLocalDataSource;
@@ -17,7 +18,7 @@ public class MatchesRepositoryModule {
     @Provides
     @Local
     MatchesDataSource provideMatchesLocalDataSource(Context context){
-        return new MatchesLocalDataSource(context);
+        return new MatchesLocalDataSource(context.getContentResolver());
     }
 
     @Singleton

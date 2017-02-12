@@ -1,10 +1,11 @@
 package com.example.shubham.sixfourfantasy.data.source.local;
 
-import android.content.Context;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.example.shubham.sixfourfantasy.data.model.Match;
+import com.example.shubham.sixfourfantasy.data.model.Team;
 import com.example.shubham.sixfourfantasy.data.source.MatchesDataSource;
 
 import java.util.List;
@@ -19,10 +20,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Singleton
 public class MatchesLocalDataSource implements MatchesDataSource {
 
+    private ContentResolver mContentResolver;
 
     @Inject
-    public MatchesLocalDataSource(@NonNull Context context) {
-        checkNotNull(context);
+    public MatchesLocalDataSource(@NonNull ContentResolver contentResolver) {
+        checkNotNull(contentResolver);
+        mContentResolver = contentResolver;
     }
 
     @Override
@@ -37,6 +40,19 @@ public class MatchesLocalDataSource implements MatchesDataSource {
 
     @Override
     public void saveMatch(Match match) {
-        Log.d("WTF","save match in local called");
+        checkNotNull(match);
+
+        // first save teams
+        saveTeam(match.team1);
+        saveTeam(match.team2);
+
+        // now save match
+        ContentValues values = match.toContentValues();
+        mContentResolver.insert(MatchesPersistenceContract.MatchEntry.CONTENT_URI, values);
+    }
+
+    private void saveTeam(Team team) {
+        ContentValues values = team.toContentValues();
+        mContentResolver.insert(MatchesPersistenceContract.TeamEntry.CONTENT_URI, values);
     }
 }

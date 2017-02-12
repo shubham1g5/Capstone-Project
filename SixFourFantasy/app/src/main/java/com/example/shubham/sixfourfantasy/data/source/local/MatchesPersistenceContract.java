@@ -44,6 +44,7 @@ public class MatchesPersistenceContract {
         public static final String COL_RESULT = "result";
         public static final String COL_TEAM1_SCORE = "team1_score";
         public static final String COL_TEAM2_SCORE = "team2_score";
+        public static final String COL_FORMAT = "format";
 
 
         public static String[] MATCHES_COLUMNS = new String[]{
@@ -60,7 +61,8 @@ public class MatchesPersistenceContract {
                 COL_WINNING_TEAM_ID,
                 COL_RESULT,
                 COL_TEAM1_SCORE,
-                COL_TEAM2_SCORE};
+                COL_TEAM2_SCORE,
+                COL_FORMAT};
 
         public static Uri buildMatchesUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
@@ -69,7 +71,6 @@ public class MatchesPersistenceContract {
         public static Uri buildMatchesUriWith(String id) {
             return CONTENT_URI.buildUpon().appendPath(id).build();
         }
-
     }
 
 
@@ -233,7 +234,7 @@ public class MatchesPersistenceContract {
 
     public static abstract class PlayerEntry implements BaseColumns {
 
-        public static final String TABLE_NAME = "team";
+        public static final String TABLE_NAME = "player";
 
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(TABLE_NAME).build();
 

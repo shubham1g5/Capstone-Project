@@ -1,9 +1,12 @@
 package com.example.shubham.sixfourfantasy.data.model;
 
+import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Team implements Parcelable{
+import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract;
+
+public class Team implements Parcelable {
 
     public int teamId;
     public String name;
@@ -47,5 +50,14 @@ public class Team implements Parcelable{
         dest.writeString(name);
         dest.writeString(image);
         dest.writeString(symbol);
+    }
+
+    public ContentValues toContentValues() {
+        ContentValues values = new ContentValues();
+        values.put(MatchesPersistenceContract.TeamEntry.COL_TEAM_ID, teamId);
+        values.put(MatchesPersistenceContract.TeamEntry.COL_NAME, name);
+        values.put(MatchesPersistenceContract.TeamEntry.COL_IMAGE, image);
+        values.put(MatchesPersistenceContract.TeamEntry.COL_SYMBOL, symbol);
+        return values;
     }
 }

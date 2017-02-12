@@ -28,6 +28,12 @@ public class MatchesProvider extends ContentProvider {
 
         matcher.addURI(authority, MatchesPersistenceContract.MatchEntry.TABLE_NAME, MATCH);
         matcher.addURI(authority, MatchesPersistenceContract.MatchEntry.TABLE_NAME + "/*", MATCH_ITEM);
+        matcher.addURI(authority, MatchesPersistenceContract.ScoreEntry.TABLE_NAME, SCORE);
+        matcher.addURI(authority, MatchesPersistenceContract.RunEntry.TABLE_NAME, RUN);
+        matcher.addURI(authority, MatchesPersistenceContract.WicketEntry.TABLE_NAME, WICKET);
+        matcher.addURI(authority, MatchesPersistenceContract.TeamEntry.TABLE_NAME, TEAM);
+        matcher.addURI(authority, MatchesPersistenceContract.PlayerEntry.TABLE_NAME, PLAYER);
+        matcher.addURI(authority, MatchesPersistenceContract.TeamHasPlayerEntry.TABLE_NAME, TEAM_HAS_PLAYER);
 
         return matcher;
     }
@@ -156,7 +162,7 @@ public class MatchesProvider extends ContentProvider {
                 if (_id > 0) {
                     returnUri = MatchesPersistenceContract.TeamEntry.buildTeamsUriWith(_id);
                 } else {
-                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                    throw new android.database.SQLException("Failed to insert row into " + uri + values.toString());
                 }
                 break;
             case PLAYER:
