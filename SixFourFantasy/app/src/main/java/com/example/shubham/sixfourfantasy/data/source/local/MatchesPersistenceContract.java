@@ -45,6 +45,7 @@ public class MatchesPersistenceContract {
         public static final String COL_TEAM1_SCORE = "team1_score";
         public static final String COL_TEAM2_SCORE = "team2_score";
         public static final String COL_FORMAT = "format";
+        public static final String COL_SERIES_ID = "series_id";
 
 
         public static String[] MATCHES_COLUMNS = new String[]{
@@ -62,7 +63,9 @@ public class MatchesPersistenceContract {
                 COL_RESULT,
                 COL_TEAM1_SCORE,
                 COL_TEAM2_SCORE,
-                COL_FORMAT};
+                COL_FORMAT,
+                COL_SERIES_ID
+        };
 
         public static Uri buildMatchesUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);

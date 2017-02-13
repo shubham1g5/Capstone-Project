@@ -1,12 +1,20 @@
 package com.example.shubham.sixfourfantasy.data.model;
 
 import android.content.ContentValues;
+import android.icu.util.TimeUnit;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract;
+import com.example.shubham.sixfourfantasy.util.TimeUtils;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class Match implements Parcelable {
+
+    private static final int MAX_INTERNATIONAL_TEAM_ID = 10;
+    private static final int MIN_INTERNATIONAL_TEAM_ID = 1;
 
     public int matchId;
     public String name;
@@ -23,10 +31,11 @@ public class Match implements Parcelable {
     public String team2Score;
     public MatchFormat format;
     public int matchTypeId;
+    public int seriesId;
 
 
     public Match() {
-        // Empty Constructor for MatchJsonAdapter
+        // Empty Constructor for MoshiJsonAdapter
     }
 
     protected Match(Parcel in) {
@@ -45,6 +54,7 @@ public class Match implements Parcelable {
         team2Score = in.readString();
         format = MatchFormat.valueOf(in.readString());
         matchTypeId = in.readInt();
+        seriesId = in.readInt();
     }
 
     public static final Creator<Match> CREATOR = new Creator<Match>() {
@@ -81,6 +91,7 @@ public class Match implements Parcelable {
         dest.writeString(team2Score);
         dest.writeString(format.toString());
         dest.writeInt(matchTypeId);
+        dest.writeInt(seriesId);
     }
 
     public ContentValues toContentValues() {
@@ -99,6 +110,17 @@ public class Match implements Parcelable {
         values.put(MatchesPersistenceContract.MatchEntry.COL_TEAM1_SCORE, team1Score);
         values.put(MatchesPersistenceContract.MatchEntry.COL_TEAM2_SCORE, team2Score);
         values.put(MatchesPersistenceContract.MatchEntry.COL_FORMAT, format.toString());
+        values.put(MatchesPersistenceContract.MatchEntry.COL_SERIES_ID, seriesId);
         return values;
+    }
+
+
+
+    private boolean isValidTeamId(int teamId) {
+        return teamId >= MIN_INTERNATIONAL_TEAM_ID && teamId <= MAX_INTERNATIONAL_TEAM_ID;
+    }
+
+    public boolean isValid() throws ParseException {
+        return isValidTeamId(team1.teamId) && isValidTeamId(team2.teamId) && TimeUtils.isInAMonth(startTime);
     }
 }

@@ -218,7 +218,7 @@ public class MatchesProvider extends ContentProvider {
                     new String[]{values.getAsString(uniqueKey)}
             );
         } else {
-            _id = db.insert(tableName, null, values);
+            _id = db.insertWithOnConflict(tableName, null, values, SQLiteDatabase.CONFLICT_REPLACE);
         }
         exists.close();
         return _id;

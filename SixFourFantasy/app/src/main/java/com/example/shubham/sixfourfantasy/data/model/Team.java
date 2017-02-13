@@ -3,8 +3,11 @@ package com.example.shubham.sixfourfantasy.data.model;
 import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 
 import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract;
+
+import java.util.List;
 
 public class Team implements Parcelable {
 
@@ -13,11 +16,15 @@ public class Team implements Parcelable {
     public String image;
     public String symbol;
 
-    public Team(int teamId, String name, String image, String symbol) {
+    @Nullable
+    public List<Player> players;
+
+    public Team(int teamId, String name, String image, String symbol, List<Player> players) {
         this.teamId = teamId;
         this.name = name;
         this.image = image;
         this.symbol = symbol;
+        this.players = players;
     }
 
     protected Team(Parcel in) {
@@ -25,6 +32,7 @@ public class Team implements Parcelable {
         name = in.readString();
         image = in.readString();
         symbol = in.readString();
+        in.readTypedList(players, Player.CREATOR);
     }
 
     public static final Creator<Team> CREATOR = new Creator<Team>() {
@@ -50,6 +58,7 @@ public class Team implements Parcelable {
         dest.writeString(name);
         dest.writeString(image);
         dest.writeString(symbol);
+        dest.writeTypedList(players);
     }
 
     public ContentValues toContentValues() {

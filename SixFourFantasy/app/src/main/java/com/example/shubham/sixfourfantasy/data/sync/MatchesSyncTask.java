@@ -17,14 +17,23 @@ public class MatchesSyncTask {
 
     public static void syncMatches(MatchesRepository matchesRepository) {
 
-        MatchService movieService = RetrofitServiceGenerator.createService(MatchService.class);
-        movieService.listMatches()
-                .subscribeOn(Schedulers.io())
-                .map(matchResponse -> matchResponse.matchList.matches)
-                .flatMap(matches -> Observable.from(matches))
-                .filter(match -> match.matchTypeId == 0 && match.format != MatchFormat.Test)
-                .subscribe(match -> matchesRepository.saveMatch(match),
-                        Throwable::printStackTrace,
-                        () -> Log.d(TAG, "Successfully updated DB with latest match list"));
+        matchesRepository.refreshTasks();
+        matchesRepository.getMatches().subscribe(
+                matches -> {
+
+                },
+                Throwable::printStackTrace
+        );
+//        MatchService movieService = RetrofitServiceGenerator.createService(MatchService.class);
+//        movieService.listMatches()
+//                .subscribeOn(Schedulers.io())
+//                .map(matchResponse -> matchResponse.matchList.matches)
+//                .flatMap(matches -> Observable.from(matches))
+//                .filter(match -> match.matchTypeId == 0 && match.format != MatchFormat.Test)
+//                .subscribe(match -> {
+//                            matchesRepository.saveMatch(match);
+//                        },
+//                        Throwable::printStackTrace,
+//                        () -> Log.d(TAG, "Successfully updated DB with latest match list"));
     }
 }

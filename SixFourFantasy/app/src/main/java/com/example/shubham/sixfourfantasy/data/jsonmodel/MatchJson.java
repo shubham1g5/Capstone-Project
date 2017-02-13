@@ -19,19 +19,12 @@ public class MatchJson {
     public MatchFormat cmsMatchAssociatedType;
     public int matchTypeId;
 
-
-    public static class TeamJson {
-        public int id;
-        public String logoUrl;
-        public String name;
-        public String shortName;
-    }
-
     public static class VenueJson {
         public String name;
     }
 
     public static class SeriesJson {
+        public int id;
         public String name;
     }
 

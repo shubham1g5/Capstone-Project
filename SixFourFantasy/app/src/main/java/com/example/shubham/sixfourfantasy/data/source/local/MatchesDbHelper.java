@@ -62,6 +62,7 @@ public class MatchesDbHelper extends SQLiteOpenHelper {
                 MatchEntry.COL_TEAM1_SCORE + TEXT_TYPE + COMMA_SEP +
                 MatchEntry.COL_TEAM2_SCORE + TEXT_TYPE + COMMA_SEP +
                 MatchEntry.COL_FORMAT + TEXT_TYPE + NOT_NULL + COMMA_SEP +
+                MatchEntry.COL_SERIES_ID + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
 
                 FOREIGN_KEY + MatchEntry.COL_TEAM1_ID + REFERENCES +
                 TeamEntry.TABLE_NAME + OPENING_BRACKET + TeamEntry.COL_TEAM_ID + CLOSING_BRACKET_COMMA +
@@ -132,13 +133,16 @@ public class MatchesDbHelper extends SQLiteOpenHelper {
                 PlayerEntry._ID + INTEGER_TYPE + UNIQUE + COMMA_SEP +
                 PlayerEntry.COL_PLAYER_ID + INTEGER_TYPE + PRIMARY_KEY + COMMA_SEP +
                 PlayerEntry.COL_NAME + TEXT_TYPE + NOT_NULL + COMMA_SEP +
-                PlayerEntry.COL_IMAGE + TEXT_TYPE + NOT_NULL + UNIQUE + COMMA_SEP +
-                PlayerEntry.COL_TYPE + TEXT_TYPE + NOT_NULL + CLOSING_BRACKET_SEMICOLON;
+                PlayerEntry.COL_IMAGE + TEXT_TYPE + COMMA_SEP +
+                PlayerEntry.COL_TYPE + TEXT_TYPE + CLOSING_BRACKET_SEMICOLON;
 
         final String SQL_CREATE_TEAM_HAS_PLAYER_TABLE = CREATE_TABLE + TeamHasPlayerEntry.TABLE_NAME + OPENING_BRACKET +
                 TeamHasPlayerEntry._ID + INTEGER_TYPE + PRIMARY_KEY + COMMA_SEP +
                 TeamHasPlayerEntry.COL_TEAM_ID + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
                 TeamHasPlayerEntry.COL_PLAYER_ID + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
+
+                UNIQUE + OPENING_BRACKET + TeamHasPlayerEntry.COL_TEAM_ID + COMMA_SEP +
+                TeamHasPlayerEntry.COL_PLAYER_ID + CLOSING_BRACKET_COMMA +
 
                 FOREIGN_KEY + TeamHasPlayerEntry.COL_TEAM_ID + REFERENCES +
                 TeamEntry.TABLE_NAME + OPENING_BRACKET + TeamEntry.COL_TEAM_ID + CLOSING_BRACKET_COMMA +
