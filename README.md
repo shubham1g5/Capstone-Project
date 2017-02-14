@@ -1,4 +1,4 @@
-# Capstone-Project
+# SixFourFantasy
 
 Six Four Fantasy is an extremely addictive cricket fantasy game that allows you to build your own team and earn fantasy points based on how your team players  actually performs  in real world cricket matches. But there is a catch! Unlike all other cricket fantasy games here you only earn points for the boundaries hit by your batsmen while losing points for the runs committed by your bowlers.
 
