@@ -46,6 +46,7 @@ public class MatchesPersistenceContract {
         public static final String COL_TEAM2_SCORE = "team2_score";
         public static final String COL_FORMAT = "format";
         public static final String COL_SERIES_ID = "series_id";
+        public static final String COL_IS_ABONDONED = "is_abondoned";
 
 
         public static String[] MATCHES_COLUMNS = new String[]{
@@ -64,7 +65,8 @@ public class MatchesPersistenceContract {
                 COL_TEAM1_SCORE,
                 COL_TEAM2_SCORE,
                 COL_FORMAT,
-                COL_SERIES_ID
+                COL_SERIES_ID,
+                COL_IS_ABONDONED
         };
 
         public static Uri buildMatchesUriWith(long id) {
@@ -75,47 +77,6 @@ public class MatchesPersistenceContract {
             return CONTENT_URI.buildUpon().appendPath(id).build();
         }
     }
-
-
-    public static abstract class ScoreEntry implements BaseColumns {
-
-        public static final String TABLE_NAME = "score";
-
-        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(TABLE_NAME).build();
-
-        public static final String CONTENT_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + SEPARATOR + CONTENT_AUTHORITY + SEPARATOR + TABLE_NAME;
-
-        public static final String CONTENT_ITEM_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + SEPARATOR + CONTENT_AUTHORITY + SEPARATOR + TABLE_NAME;
-
-
-        public static final String COL_MATCH_ID = "match_id";
-        public static final String COL_INNINGS_NO = "innings_no";
-        public static final String COL_BATTING_TEAM_ID = "batting_team_id";
-        public static final String COL_BOWLING_TEAM_ID = "bowling_team_id";
-        public static final String COL_BATTING_SCORE_ID = "batting_score_id";
-        public static final String COL_BOWLING_SCORE_ID = "bowling_score_id";
-
-        public static String[] SCORES_COLUMNS = new String[]{
-                ScoreEntry._ID,
-                COL_MATCH_ID,
-                COL_INNINGS_NO,
-                COL_BATTING_TEAM_ID,
-                COL_BOWLING_TEAM_ID,
-                COL_BATTING_SCORE_ID,
-                COL_BOWLING_SCORE_ID};
-
-        public static Uri buildScoresUriWith(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
-        }
-
-        public static Uri buildScoresUriWith(String id) {
-            return CONTENT_URI.buildUpon().appendPath(id).build();
-        }
-
-    }
-
 
     public static abstract class RunEntry implements BaseColumns {
 
@@ -129,6 +90,9 @@ public class MatchesPersistenceContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + SEPARATOR + CONTENT_AUTHORITY + SEPARATOR + TABLE_NAME;
 
+
+        public static final String COL_MATCH_ID = "match_id";
+        public static final String COL_INNINGS_NO = "innings_no";
         public static final String COL_PLAYER_ID = "player_id";
         public static final String COL_RUNS = "runs";
         public static final String COL_BALLS = "balls";
@@ -140,6 +104,8 @@ public class MatchesPersistenceContract {
 
         public static String[] RUNS_COLUMNS = new String[]{
                 RunEntry._ID,
+                COL_MATCH_ID,
+                COL_INNINGS_NO,
                 COL_PLAYER_ID,
                 COL_RUNS,
                 COL_BALLS,
@@ -171,6 +137,8 @@ public class MatchesPersistenceContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + SEPARATOR + CONTENT_AUTHORITY + SEPARATOR + TABLE_NAME;
 
+        public static final String COL_MATCH_ID = "match_id";
+        public static final String COL_INNINGS_NO = "innings_no";
         public static final String COL_PLAYER_ID = "player_id";
         public static final String COL_RUNS = "runs";
         public static final String COL_OVERS = "overs";
@@ -182,6 +150,8 @@ public class MatchesPersistenceContract {
 
         public static String[] WICKETS_COLUMNS = new String[]{
                 WicketEntry._ID,
+                COL_MATCH_ID,
+                COL_INNINGS_NO,
                 COL_PLAYER_ID,
                 COL_RUNS,
                 COL_OVERS,

@@ -12,7 +12,7 @@ public class TimeUtils {
     private static final java.lang.String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
 
     public static boolean isInAMonth(String time) throws ParseException {
-        Date date = new SimpleDateFormat(DATE_FORMAT).parse(time);
+        Date date = new SimpleDateFormat(DATE_FORMAT).parse(time.replaceAll("Z$", "+0000"));
         Calendar timeCal = Calendar.getInstance();
         timeCal.setTime(date);
         Calendar now = Calendar.getInstance();

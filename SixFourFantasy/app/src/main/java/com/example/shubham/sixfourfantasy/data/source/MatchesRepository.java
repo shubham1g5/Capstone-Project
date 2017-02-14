@@ -2,8 +2,8 @@ package com.example.shubham.sixfourfantasy.data.source;
 
 import android.support.annotation.NonNull;
 
+import com.example.shubham.sixfourfantasy.data.model.Inning;
 import com.example.shubham.sixfourfantasy.data.model.Match;
-import com.example.shubham.sixfourfantasy.data.model.MatchFormat;
 import com.example.shubham.sixfourfantasy.data.model.MatchStatus;
 import com.example.shubham.sixfourfantasy.data.model.Player;
 import com.example.shubham.sixfourfantasy.data.model.Team;
@@ -62,11 +62,21 @@ public class MatchesRepository implements MatchesDataSource {
                     .flatMap(matches -> Observable.from(matches))
                     // Filtering international teams ODI and T20 matches
                     .flatMap(match -> setMatchPlayers(match))
+                    .flatMap(match -> setMatchScores(match))
                     .doOnNext(match -> mMatchesLocalDataSource.saveMatch(match))
                     .toList()
                     .doOnCompleted(() -> mRefreshData = false);
         }
         return mMatchesLocalDataSource.getMatches();
+    }
+
+    private Observable<Match> setMatchScores(Match match) {
+        if (match.status != MatchStatus.UPCOMING && !match.isAbandoned) {
+            return mMatchesRemoteDataSource.getScoresForMatch(match)
+                    .doOnNext(innings -> match.innings = innings)
+                    .flatMap(innings -> Observable.just(match));
+        }
+        return Observable.just(match);
     }
 
     private Observable<Match> setMatchPlayers(Match match) {
@@ -83,7 +93,7 @@ public class MatchesRepository implements MatchesDataSource {
                     });
         } else {
 
-            return mMatchesRemoteDataSource.getPlayersForMatch(match.matchId, match.seriesId)
+            return mMatchesRemoteDataSource.getPlayersForMatch(match)
                     .flatMap(teams -> Observable.from(teams))
                     .doOnNext(team -> {
                         if (match.team1.teamId == team.teamId) {
@@ -113,7 +123,12 @@ public class MatchesRepository implements MatchesDataSource {
     }
 
     @Override
-    public Observable<List<Team>> getPlayersForMatch(int matchId, int seriesId) {
+    public Observable<List<Team>> getPlayersForMatch(Match match) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<Inning>> getScoresForMatch(Match match) {
         return null;
     }
 

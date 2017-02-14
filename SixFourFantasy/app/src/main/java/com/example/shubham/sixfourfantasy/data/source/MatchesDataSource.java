@@ -1,8 +1,10 @@
 package com.example.shubham.sixfourfantasy.data.source;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.example.shubham.sixfourfantasy.data.jsonmodel.PlayersByMatch;
+import com.example.shubham.sixfourfantasy.data.model.Inning;
 import com.example.shubham.sixfourfantasy.data.model.Match;
 import com.example.shubham.sixfourfantasy.data.model.Player;
 import com.example.shubham.sixfourfantasy.data.model.Team;
@@ -27,5 +29,8 @@ public interface MatchesDataSource {
 
     Observable<List<Player>> getPlayersForTeam(int teamId);
 
-    Observable<List<Team>> getPlayersForMatch(int matchId, int seriesId);
+    Observable<List<Team>> getPlayersForMatch(Match match);
+
+    @Nullable
+    Observable<List<Inning>> getScoresForMatch(Match match);
 }

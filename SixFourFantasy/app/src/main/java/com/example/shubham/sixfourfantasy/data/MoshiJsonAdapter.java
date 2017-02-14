@@ -1,9 +1,13 @@
 package com.example.shubham.sixfourfantasy.data;
 
+import com.example.shubham.sixfourfantasy.data.jsonmodel.InningJson;
 import com.example.shubham.sixfourfantasy.data.jsonmodel.MatchJson;
 import com.example.shubham.sixfourfantasy.data.jsonmodel.MatchTeam;
+import com.example.shubham.sixfourfantasy.data.model.Inning;
 import com.example.shubham.sixfourfantasy.data.model.Match;
+import com.example.shubham.sixfourfantasy.data.model.RunsCard;
 import com.example.shubham.sixfourfantasy.data.model.Team;
+import com.example.shubham.sixfourfantasy.data.model.WicketsCard;
 import com.squareup.moshi.FromJson;
 
 public class MoshiJsonAdapter {
@@ -27,6 +31,7 @@ public class MoshiJsonAdapter {
         match.matchTypeId = matchJson.matchTypeId;
         match.format = matchJson.cmsMatchAssociatedType;
         match.seriesId = matchJson.series.id;
+        match.isAbandoned = matchJson.isMatchAbandoned;
         return match;
     }
 
@@ -34,6 +39,18 @@ public class MoshiJsonAdapter {
     Team teamFromMatchTeam(MatchTeam matchTeam) {
         Team team = new Team(matchTeam.team.id, matchTeam.team.name, matchTeam.team.logoUrl, matchTeam.team.shortName, matchTeam.players);
         return team;
+    }
+
+    @FromJson
+    Inning inningFromInningJson(InningJson inningJson) {
+        Inning inning = new Inning(inningJson.batsmen, inningJson.bowlers);
+        for (RunsCard runCard : inning.runCards) {
+            runCard.inningsNo = inningJson.id;
+        }
+        for (WicketsCard wicketCard : inning.wicketCards) {
+            wicketCard.inningsNo = inningJson.id;
+        }
+        return inning;
     }
 
 }

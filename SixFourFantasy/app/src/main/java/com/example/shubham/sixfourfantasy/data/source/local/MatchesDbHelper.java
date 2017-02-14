@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.MatchEntry;
 import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.PlayerEntry;
 import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.RunEntry;
-import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.ScoreEntry;
 import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.TeamEntry;
 import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.TeamHasPlayerEntry;
 import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.WicketEntry;
@@ -63,6 +62,7 @@ public class MatchesDbHelper extends SQLiteOpenHelper {
                 MatchEntry.COL_TEAM2_SCORE + TEXT_TYPE + COMMA_SEP +
                 MatchEntry.COL_FORMAT + TEXT_TYPE + NOT_NULL + COMMA_SEP +
                 MatchEntry.COL_SERIES_ID + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
+                MatchEntry.COL_IS_ABONDONED + BOOLEAN_TYPE + NOT_NULL + COMMA_SEP +
 
                 FOREIGN_KEY + MatchEntry.COL_TEAM1_ID + REFERENCES +
                 TeamEntry.TABLE_NAME + OPENING_BRACKET + TeamEntry.COL_TEAM_ID + CLOSING_BRACKET_COMMA +
@@ -70,46 +70,33 @@ public class MatchesDbHelper extends SQLiteOpenHelper {
                 FOREIGN_KEY + MatchEntry.COL_TEAM2_ID + REFERENCES +
                 TeamEntry.TABLE_NAME + OPENING_BRACKET + TeamEntry.COL_TEAM_ID + CLOSING_BRACKET + CLOSING_BRACKET_SEMICOLON;
 
-        final String SQL_CREATE_SCORE_TABLE = CREATE_TABLE + ScoreEntry.TABLE_NAME + OPENING_BRACKET +
-                ScoreEntry._ID + INTEGER_TYPE + PRIMARY_KEY + COMMA_SEP +
-                ScoreEntry.COL_MATCH_ID + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
-                ScoreEntry.COL_INNINGS_NO + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
-                ScoreEntry.COL_BATTING_TEAM_ID + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
-                ScoreEntry.COL_BOWLING_TEAM_ID + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
-                ScoreEntry.COL_BATTING_SCORE_ID + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
-                ScoreEntry.COL_BOWLING_SCORE_ID + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
-
-                FOREIGN_KEY + ScoreEntry.COL_MATCH_ID + REFERENCES +
-                MatchEntry.TABLE_NAME + OPENING_BRACKET + MatchEntry.COL_MATCH_ID + CLOSING_BRACKET_COMMA +
-
-                FOREIGN_KEY + ScoreEntry.COL_BATTING_TEAM_ID + REFERENCES +
-                TeamEntry.TABLE_NAME + OPENING_BRACKET + TeamEntry.COL_TEAM_ID + CLOSING_BRACKET_COMMA +
-
-                FOREIGN_KEY + ScoreEntry.COL_BOWLING_TEAM_ID + REFERENCES +
-                TeamEntry.TABLE_NAME + OPENING_BRACKET + TeamEntry.COL_TEAM_ID + CLOSING_BRACKET_COMMA +
-
-                FOREIGN_KEY + ScoreEntry.COL_BATTING_SCORE_ID + REFERENCES +
-                RunEntry.TABLE_NAME + OPENING_BRACKET + RunEntry._ID + CLOSING_BRACKET_COMMA +
-
-                FOREIGN_KEY + ScoreEntry.COL_BOWLING_SCORE_ID + REFERENCES +
-                WicketEntry.TABLE_NAME + OPENING_BRACKET + WicketEntry._ID + CLOSING_BRACKET + CLOSING_BRACKET_SEMICOLON;
 
         final String SQL_CREATE_RUN_TABLE = CREATE_TABLE + RunEntry.TABLE_NAME + OPENING_BRACKET +
                 RunEntry._ID + INTEGER_TYPE + PRIMARY_KEY + COMMA_SEP +
+                RunEntry.COL_MATCH_ID + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
+                RunEntry.COL_INNINGS_NO + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
                 RunEntry.COL_PLAYER_ID + INTEGER_TYPE + COMMA_SEP +
                 RunEntry.COL_RUNS + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
                 RunEntry.COL_BALLS + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
                 RunEntry.COL_FOURS + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
                 RunEntry.COL_SIXES + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
                 RunEntry.COL_STRIKE_RATE + FLOAT_TYPE + NOT_NULL + COMMA_SEP +
-                RunEntry.COL_FOW + TEXT_TYPE + NOT_NULL + COMMA_SEP +
-                RunEntry.COL_OUT + TEXT_TYPE + NOT_NULL + COMMA_SEP +
+                RunEntry.COL_FOW + TEXT_TYPE + COMMA_SEP +
+                RunEntry.COL_OUT + TEXT_TYPE + COMMA_SEP +
+
+                UNIQUE + OPENING_BRACKET + RunEntry.COL_MATCH_ID + COMMA_SEP +
+                RunEntry.COL_PLAYER_ID + COMMA_SEP + RunEntry.COL_INNINGS_NO + CLOSING_BRACKET_COMMA +
+
+                FOREIGN_KEY + RunEntry.COL_MATCH_ID + REFERENCES +
+                MatchEntry.TABLE_NAME + OPENING_BRACKET + MatchEntry.COL_MATCH_ID + CLOSING_BRACKET_COMMA +
 
                 FOREIGN_KEY + RunEntry.COL_PLAYER_ID + REFERENCES +
                 PlayerEntry.TABLE_NAME + OPENING_BRACKET + PlayerEntry.COL_PLAYER_ID + CLOSING_BRACKET + CLOSING_BRACKET_SEMICOLON;
 
         final String SQL_CREATE_WICKET_TABLE = CREATE_TABLE + WicketEntry.TABLE_NAME + OPENING_BRACKET +
                 WicketEntry._ID + INTEGER_TYPE + PRIMARY_KEY + COMMA_SEP +
+                WicketEntry.COL_MATCH_ID + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
+                WicketEntry.COL_INNINGS_NO + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
                 WicketEntry.COL_PLAYER_ID + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
                 WicketEntry.COL_RUNS + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
                 WicketEntry.COL_OVERS + FLOAT_TYPE + NOT_NULL + COMMA_SEP +
@@ -118,6 +105,12 @@ public class MatchesDbHelper extends SQLiteOpenHelper {
                 WicketEntry.COL_ECONOMY + FLOAT_TYPE + NOT_NULL + COMMA_SEP +
                 WicketEntry.COL_NO_BALLS + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
                 WicketEntry.COL_WIDE_BALLS + INTEGER_TYPE + NOT_NULL + COMMA_SEP +
+
+                UNIQUE + OPENING_BRACKET + WicketEntry.COL_MATCH_ID + COMMA_SEP +
+                WicketEntry.COL_PLAYER_ID + COMMA_SEP + WicketEntry.COL_INNINGS_NO + CLOSING_BRACKET_COMMA +
+
+                FOREIGN_KEY + WicketEntry.COL_MATCH_ID + REFERENCES +
+                MatchEntry.TABLE_NAME + OPENING_BRACKET + MatchEntry.COL_MATCH_ID + CLOSING_BRACKET_COMMA +
 
                 FOREIGN_KEY + WicketEntry.COL_PLAYER_ID + REFERENCES +
                 PlayerEntry.TABLE_NAME + OPENING_BRACKET + PlayerEntry.COL_PLAYER_ID + CLOSING_BRACKET + CLOSING_BRACKET_SEMICOLON;
@@ -152,7 +145,6 @@ public class MatchesDbHelper extends SQLiteOpenHelper {
 
         String[] createStmts = new String[]{
                 SQL_CREATE_MATCH_TABLE,
-                SQL_CREATE_SCORE_TABLE,
                 SQL_CREATE_RUN_TABLE,
                 SQL_CREATE_WICKET_TABLE,
                 SQL_CREATE_TEAM_TABLE,
@@ -171,8 +163,7 @@ public class MatchesDbHelper extends SQLiteOpenHelper {
         // Simply discard the data and start over
 
         String[] tables = new String[]{
-                ScoreEntry.TABLE_NAME,
-                ScoreEntry.TABLE_NAME,
+                MatchEntry.TABLE_NAME,
                 RunEntry.TABLE_NAME,
                 WicketEntry.TABLE_NAME,
                 TeamEntry.TABLE_NAME,

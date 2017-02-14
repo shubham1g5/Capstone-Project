@@ -2,8 +2,10 @@ package com.example.shubham.sixfourfantasy.data.source.remote;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.shubham.sixfourfantasy.data.model.Inning;
 import com.example.shubham.sixfourfantasy.data.model.Match;
 import com.example.shubham.sixfourfantasy.data.model.MatchFormat;
 import com.example.shubham.sixfourfantasy.data.model.Player;
@@ -68,8 +70,8 @@ public class MatchesRemoteDataSource implements MatchesDataSource {
     }
 
     @Override
-    public Observable<List<Team>> getPlayersForMatch(int matchId, int seriesId) {
-        return mMatchService.listMatchPlayers(matchId, seriesId)
+    public Observable<List<Team>> getPlayersForMatch(Match match) {
+        return mMatchService.listMatchPlayers(match.matchId, match.seriesId)
                 .subscribeOn(Schedulers.io())
                 .flatMap(playersByMatch -> {
                     List<Team> teams = new ArrayList<>();
@@ -77,5 +79,14 @@ public class MatchesRemoteDataSource implements MatchesDataSource {
                     teams.add(playersByMatch.playersInMatch.awayTeam);
                     return Observable.just(teams);
                 });
+    }
+
+    @Nullable
+    @Override
+    public Observable<List<Inning>> getScoresForMatch(Match match) {
+        return mMatchService.listMatchScores(match.matchId, match.seriesId)
+                .subscribeOn(Schedulers.io())
+                .map(scoresByMatch -> scoresByMatch.fullScorecard == null ?
+                        null : scoresByMatch.fullScorecard.innings);
     }
 }

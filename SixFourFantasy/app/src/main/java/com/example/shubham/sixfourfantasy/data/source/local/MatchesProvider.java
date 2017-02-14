@@ -8,11 +8,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
+import org.jetbrains.annotations.NotNull;
+
 public class MatchesProvider extends ContentProvider {
 
     private static final int MATCH = 100;
     private static final int MATCH_ITEM = 101;
-    private static final int SCORE = 200;
     private static final int RUN = 300;
     private static final int WICKET = 400;
     private static final int TEAM = 500;
@@ -28,7 +29,6 @@ public class MatchesProvider extends ContentProvider {
 
         matcher.addURI(authority, MatchesPersistenceContract.MatchEntry.TABLE_NAME, MATCH);
         matcher.addURI(authority, MatchesPersistenceContract.MatchEntry.TABLE_NAME + "/*", MATCH_ITEM);
-        matcher.addURI(authority, MatchesPersistenceContract.ScoreEntry.TABLE_NAME, SCORE);
         matcher.addURI(authority, MatchesPersistenceContract.RunEntry.TABLE_NAME, RUN);
         matcher.addURI(authority, MatchesPersistenceContract.WicketEntry.TABLE_NAME, WICKET);
         matcher.addURI(authority, MatchesPersistenceContract.TeamEntry.TABLE_NAME, TEAM);
@@ -105,23 +105,10 @@ public class MatchesProvider extends ContentProvider {
                         db,
                         MatchesPersistenceContract.MatchEntry.TABLE_NAME,
                         values,
-                        MatchesPersistenceContract.MatchEntry.COL_MATCH_ID
+                        new String[]{MatchesPersistenceContract.MatchEntry.COL_MATCH_ID}
                 );
                 if (_id > 0) {
                     returnUri = MatchesPersistenceContract.MatchEntry.buildMatchesUriWith(_id);
-                } else {
-                    throw new android.database.SQLException("Failed to insert row into " + uri);
-                }
-                break;
-            case SCORE:
-                _id = updateOrInsert(
-                        db,
-                        MatchesPersistenceContract.ScoreEntry.TABLE_NAME,
-                        values,
-                        MatchesPersistenceContract.ScoreEntry._ID
-                );
-                if (_id > 0) {
-                    returnUri = MatchesPersistenceContract.ScoreEntry.buildScoresUriWith(_id);
                 } else {
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 }
@@ -131,7 +118,8 @@ public class MatchesProvider extends ContentProvider {
                         db,
                         MatchesPersistenceContract.RunEntry.TABLE_NAME,
                         values,
-                        MatchesPersistenceContract.RunEntry._ID
+                        new String[]{MatchesPersistenceContract.RunEntry.COL_PLAYER_ID, MatchesPersistenceContract.RunEntry.COL_MATCH_ID,
+                                MatchesPersistenceContract.RunEntry.COL_INNINGS_NO}
                 );
                 if (_id > 0) {
                     returnUri = MatchesPersistenceContract.RunEntry.buildRunsUriWith(_id);
@@ -144,7 +132,8 @@ public class MatchesProvider extends ContentProvider {
                         db,
                         MatchesPersistenceContract.WicketEntry.TABLE_NAME,
                         values,
-                        MatchesPersistenceContract.WicketEntry._ID
+                        new String[]{MatchesPersistenceContract.WicketEntry.COL_PLAYER_ID, MatchesPersistenceContract.WicketEntry.COL_MATCH_ID,
+                                MatchesPersistenceContract.WicketEntry.COL_INNINGS_NO}
                 );
                 if (_id > 0) {
                     returnUri = MatchesPersistenceContract.WicketEntry.buildWicketsUriWith(_id);
@@ -157,7 +146,7 @@ public class MatchesProvider extends ContentProvider {
                         db,
                         MatchesPersistenceContract.TeamEntry.TABLE_NAME,
                         values,
-                        MatchesPersistenceContract.TeamEntry.COL_TEAM_ID
+                        new String[]{MatchesPersistenceContract.TeamEntry.COL_TEAM_ID}
                 );
                 if (_id > 0) {
                     returnUri = MatchesPersistenceContract.TeamEntry.buildTeamsUriWith(_id);
@@ -170,7 +159,7 @@ public class MatchesProvider extends ContentProvider {
                         db,
                         MatchesPersistenceContract.PlayerEntry.TABLE_NAME,
                         values,
-                        MatchesPersistenceContract.PlayerEntry.COL_PLAYER_ID
+                        new String[]{MatchesPersistenceContract.PlayerEntry.COL_PLAYER_ID}
                 );
                 if (_id > 0) {
                     returnUri = MatchesPersistenceContract.PlayerEntry.buildPlayersUriWith(_id);
@@ -183,7 +172,7 @@ public class MatchesProvider extends ContentProvider {
                         db,
                         MatchesPersistenceContract.TeamHasPlayerEntry.TABLE_NAME,
                         values,
-                        MatchesPersistenceContract.TeamHasPlayerEntry._ID
+                        new String[]{MatchesPersistenceContract.TeamHasPlayerEntry.COL_PLAYER_ID, MatchesPersistenceContract.TeamHasPlayerEntry.COL_TEAM_ID}
                 );
                 if (_id > 0) {
                     returnUri = MatchesPersistenceContract.TeamHasPlayerEntry.buildTeamHasPlayersUriWith(_id);
@@ -199,13 +188,24 @@ public class MatchesProvider extends ContentProvider {
         return returnUri;
     }
 
-    private long updateOrInsert(SQLiteDatabase db, String tableName, ContentValues values, String uniqueKey) {
+    private long updateOrInsert(@NotNull SQLiteDatabase db, @NotNull String tableName, @NotNull ContentValues values, @NotNull String[] uniqueKeys) {
+
         long _id;
+
+        String selection = "";
+        String[] selctionArgs = new String[uniqueKeys.length];
+        int i = 0;
+        for (String uniqueKey : uniqueKeys) {
+            selection += selection.length() != 0 ? " and " : "";
+            selection += uniqueKey + " = ?";
+            selctionArgs[i++] = values.getAsString(uniqueKey);
+        }
+
         Cursor exists = db.query(
                 tableName,
-                new String[]{uniqueKey},
-                uniqueKey + " = ?",
-                new String[]{values.getAsString(uniqueKey)},
+                new String[]{},
+                selection,
+                selctionArgs,
                 null,
                 null,
                 null
@@ -214,8 +214,8 @@ public class MatchesProvider extends ContentProvider {
             _id = db.update(
                     tableName,
                     values,
-                    uniqueKey + " = ?",
-                    new String[]{values.getAsString(uniqueKey)}
+                    selection,
+                    selctionArgs
             );
         } else {
             _id = db.insertWithOnConflict(tableName, null, values, SQLiteDatabase.CONFLICT_REPLACE);
@@ -232,9 +232,6 @@ public class MatchesProvider extends ContentProvider {
         switch (match) {
             case MATCH:
                 rowsDeleted = db.delete(MatchesPersistenceContract.MatchEntry.TABLE_NAME, selection, selectionArgs);
-                break;
-            case SCORE:
-                rowsDeleted = db.delete(MatchesPersistenceContract.ScoreEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             case RUN:
                 rowsDeleted = db.delete(MatchesPersistenceContract.RunEntry.TABLE_NAME, selection, selectionArgs);
@@ -270,9 +267,6 @@ public class MatchesProvider extends ContentProvider {
         switch (match) {
             case MATCH:
                 rowsUpdated = db.update(MatchesPersistenceContract.MatchEntry.TABLE_NAME, values, selection, selectionArgs);
-                break;
-            case SCORE:
-                rowsUpdated = db.update(MatchesPersistenceContract.ScoreEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
             case RUN:
                 rowsUpdated = db.update(MatchesPersistenceContract.RunEntry.TABLE_NAME, values, selection, selectionArgs);

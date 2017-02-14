@@ -10,6 +10,7 @@ import com.example.shubham.sixfourfantasy.util.TimeUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 public class Match implements Parcelable {
 
@@ -32,6 +33,9 @@ public class Match implements Parcelable {
     public MatchFormat format;
     public int matchTypeId;
     public int seriesId;
+    public boolean isAbandoned;
+
+    public transient List<Inning> innings;
 
 
     public Match() {
@@ -55,6 +59,9 @@ public class Match implements Parcelable {
         format = MatchFormat.valueOf(in.readString());
         matchTypeId = in.readInt();
         seriesId = in.readInt();
+        in.readTypedList(innings, Inning.CREATOR);
+        isAbandoned = in.readInt() == 1;
+
     }
 
     public static final Creator<Match> CREATOR = new Creator<Match>() {
@@ -92,6 +99,8 @@ public class Match implements Parcelable {
         dest.writeString(format.toString());
         dest.writeInt(matchTypeId);
         dest.writeInt(seriesId);
+        dest.writeTypedList(innings);
+        dest.writeInt(isAbandoned ? 1 : 0);
     }
 
     public ContentValues toContentValues() {
@@ -111,6 +120,8 @@ public class Match implements Parcelable {
         values.put(MatchesPersistenceContract.MatchEntry.COL_TEAM2_SCORE, team2Score);
         values.put(MatchesPersistenceContract.MatchEntry.COL_FORMAT, format.toString());
         values.put(MatchesPersistenceContract.MatchEntry.COL_SERIES_ID, seriesId);
+        values.put(MatchesPersistenceContract.MatchEntry.COL_SERIES_ID, seriesId);
+        values.put(MatchesPersistenceContract.MatchEntry.COL_IS_ABONDONED, isAbandoned);
         return values;
     }
 

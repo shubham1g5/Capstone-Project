@@ -18,6 +18,7 @@ public class MatchJson {
     public ScoresJson scores;
     public MatchFormat cmsMatchAssociatedType;
     public int matchTypeId;
+    public boolean isMatchAbandoned;
 
     public static class VenueJson {
         public String name;

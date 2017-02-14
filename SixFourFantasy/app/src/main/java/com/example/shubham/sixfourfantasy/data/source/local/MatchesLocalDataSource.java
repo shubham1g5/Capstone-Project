@@ -4,9 +4,12 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.support.annotation.NonNull;
 
+import com.example.shubham.sixfourfantasy.data.model.Inning;
 import com.example.shubham.sixfourfantasy.data.model.Match;
 import com.example.shubham.sixfourfantasy.data.model.Player;
+import com.example.shubham.sixfourfantasy.data.model.RunsCard;
 import com.example.shubham.sixfourfantasy.data.model.Team;
+import com.example.shubham.sixfourfantasy.data.model.WicketsCard;
 import com.example.shubham.sixfourfantasy.data.source.MatchesDataSource;
 
 import java.util.List;
@@ -48,8 +51,27 @@ public class MatchesLocalDataSource implements MatchesDataSource {
         saveTeam(match.team2);
 
         // now save match
-        ContentValues values = match.toContentValues();
-        mContentResolver.insert(MatchesPersistenceContract.MatchEntry.CONTENT_URI, values);
+        mContentResolver.insert(MatchesPersistenceContract.MatchEntry.CONTENT_URI, match.toContentValues());
+
+        // Finally save scores for the match
+        saveScores(match);
+    }
+
+    private void saveScores(Match match) {
+        if (match.innings != null) {
+            for (int i = 0; i < match.innings.size(); i++) {
+                Inning inning = match.innings.get(i);
+                for (RunsCard runCard : inning.runCards) {
+                    runCard.matchId = match.matchId;
+                    mContentResolver.insert(MatchesPersistenceContract.RunEntry.CONTENT_URI, runCard.toContentValues());
+                }
+
+                for (WicketsCard wicketCard : inning.wicketCards) {
+                    wicketCard.matchId = match.matchId;
+                    mContentResolver.insert(MatchesPersistenceContract.WicketEntry.CONTENT_URI, wicketCard.toContentValues());
+                }
+            }
+        }
     }
 
     @Override
@@ -58,7 +80,12 @@ public class MatchesLocalDataSource implements MatchesDataSource {
     }
 
     @Override
-    public Observable<List<Team>> getPlayersForMatch(int matchId, int seriesId) {
+    public Observable<List<Team>> getPlayersForMatch(Match match) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<Inning>> getScoresForMatch(Match match) {
         return null;
     }
 
@@ -69,8 +96,7 @@ public class MatchesLocalDataSource implements MatchesDataSource {
         // Also save players
         if (team.players != null) {
             for (Player player : team.players) {
-                ContentValues playerValues = player.toContentValues();
-                mContentResolver.insert(MatchesPersistenceContract.PlayerEntry.CONTENT_URI, playerValues);
+                mContentResolver.insert(MatchesPersistenceContract.PlayerEntry.CONTENT_URI, player.toContentValues());
 
                 // Update Team Has Players
                 ContentValues teamHasPlayerValues = new ContentValues();
