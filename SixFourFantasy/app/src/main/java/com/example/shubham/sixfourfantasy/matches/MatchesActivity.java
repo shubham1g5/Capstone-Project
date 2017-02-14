@@ -7,6 +7,7 @@ import android.test.mock.MockApplication;
 import com.example.shubham.sixfourfantasy.MyApplication;
 import com.example.shubham.sixfourfantasy.R;
 import com.example.shubham.sixfourfantasy.data.sync.MatchesSyncTask;
+import com.example.shubham.sixfourfantasy.data.sync.MatchesSyncUtils;
 
 public class MatchesActivity extends AppCompatActivity {
 
@@ -15,6 +16,6 @@ public class MatchesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.matches_act);
 
-        MatchesSyncTask.syncMatches(((MyApplication) getApplication()).getMatchesRepositoryComponent().getMatchesRepository());
+        MatchesSyncUtils.initialize(getApplication());
     }
 }

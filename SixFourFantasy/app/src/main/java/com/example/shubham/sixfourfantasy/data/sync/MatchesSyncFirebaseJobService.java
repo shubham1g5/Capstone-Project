@@ -10,8 +10,7 @@ public class MatchesSyncFirebaseJobService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters job) {
-        MatchesRepositoryComponent matchesRepositoryComponent = ((MyApplication) getApplication()).getMatchesRepositoryComponent();
-        MatchesSyncTask.syncMatches(matchesRepositoryComponent.getMatchesRepository());
+        MatchesSyncTask.syncMatches(getApplication());
         return true;
     }
 

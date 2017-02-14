@@ -1,5 +1,6 @@
 package com.example.shubham.sixfourfantasy.data.sync;
 
+import android.app.Application;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -56,10 +57,10 @@ public class MatchesSyncUtils {
      * Creates periodic sync tasks and checks to see if an immediate sync is required. If an
      * immediate sync is required, this method will take care of making sure that sync occurs.
      *
-     * @param context Context that will be passed to other methods and used to access the
+     * @param application Context that will be passed to other methods and used to access the
      *                ContentResolver
      */
-    synchronized public static void initialize(@NonNull final Context context) {
+    synchronized public static void initialize(@NonNull final Application application) {
 
         /*
          * Only perform initialization once per app lifetime. If initialization has already been
@@ -69,7 +70,7 @@ public class MatchesSyncUtils {
 
         sInitialized = true;
 
-        scheduleFirebaseJobDispatcherSync(context);
+        scheduleFirebaseJobDispatcherSync(application);
 
 
          /*
@@ -79,18 +80,18 @@ public class MatchesSyncUtils {
          * to check the contents of our ContentProvider.
          */
         SqlBrite sqlBrite = new SqlBrite.Builder().build();
-        BriteContentResolver resolver = sqlBrite.wrapContentProvider(context.getContentResolver(), Schedulers.io());
+        BriteContentResolver resolver = sqlBrite.wrapContentProvider(application.getContentResolver(), Schedulers.io());
         Observable<SqlBrite.Query> matchesQuery = resolver.createQuery(MatchesPersistenceContract.MatchEntry.CONTENT_URI,
                 new String[]{MatchesPersistenceContract.MatchEntry.COL_MATCH_ID},
                 null,
                 null,
                 null,
                 false);
-        matchesQuery.count().subscribe(count -> {
-           if(count == 0){
-               // TODO: 11/2/17  
-//              MatchesSyncTask.syncMatches(context);
-           }
+        matchesQuery.take(1).subscribe(query -> {
+            Cursor cursor = query.run();
+            if (cursor != null && cursor.getCount() == 0) {
+                MatchesSyncTask.syncMatches(application);
+            }
         });
     }
 }
