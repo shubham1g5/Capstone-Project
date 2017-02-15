@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">SixFourFantasy</string>
     <string name="content_authority">com.example.shubham.sixfourfantasy</string>
+    <string name="live_tab_title">Live</string>
+    <string name="results_tab_title">Results</string>
+    <string name="upcoming_tab_title">Upcoming</string>
 </resources>

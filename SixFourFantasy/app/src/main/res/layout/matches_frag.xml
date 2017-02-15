@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="view"
+            type="com.example.shubham.sixfourfantasy.matches.MatchesFragment" />
+
+        <variable
+            name="viewmodel"
+            type="com.example.shubham.sixfourfantasy.matches.MatchesViewModel" />
+
+    </data>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onRefresh="@{viewmodel}"
+        app:refreshing="@{viewmodel.dataLoading}">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/empty_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@{viewmodel.noMatchesLabel}"
+                android:visibility="@{viewmodel.empty ? View.VISIBLE : View.GONE}" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/matcheslist_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                android:visibility="@{viewmodel.empty ? View.GONE : View.VISIBLE}"
+                app:items="@{viewmodel.items}" />
+        </LinearLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</layout>
+
