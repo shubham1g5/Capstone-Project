@@ -12,12 +12,15 @@ import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import com.example.shubham.sixfourfantasy.R;
-import com.example.shubham.sixfourfantasy.ViewModelHolder;
+import com.example.shubham.sixfourfantasy.ViewModelHolderFragment;
+import com.example.shubham.sixfourfantasy.data.model.MatchStatus;
 import com.example.shubham.sixfourfantasy.data.sync.MatchesSyncUtils;
 import com.example.shubham.sixfourfantasy.util.ActivityUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.shubham.sixfourfantasy.matches.MatchesFragment.MATCH_TYPE_KEY;
 
 public class MatchesActivity extends AppCompatActivity implements MatchItemNavigator {
 
@@ -28,12 +31,12 @@ public class MatchesActivity extends AppCompatActivity implements MatchItemNavig
 
         MatchesSyncUtils.initialize(getApplication());
 
-        ((CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout))
-                .setTitle(getString(R.string.app_name));
+//        ((CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout))
+//                .setTitle(getString(R.string.app_name));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+//        toolbar.setTitle(getString(R.string.app_name));
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -45,33 +48,76 @@ public class MatchesActivity extends AppCompatActivity implements MatchItemNavig
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(MatchesFragment.newInstance(), getString(R.string.live_tab_title));
-        adapter.addFragment(MatchesFragment.newInstance(), getString(R.string.upcoming_tab_title));
-        adapter.addFragment(MatchesFragment.newInstance(), getString(R.string.results_tab_title));
         viewPager.setAdapter(adapter);
     }
 
+    public MatchesViewModel attachViewModel(MatchesFragment matchesFragment) {
+        return findOrCreateViewModel(matchesFragment.getArguments().getString(MATCH_TYPE_KEY));
+    }
+
+    private MatchesViewModel findOrCreateViewModel(String tag) {
+
+        // In a configuration change we might have a ViewModel present. It's retained using the
+        // Fragment Manager.
+        @SuppressWarnings("unchecked")
+        ViewModelHolderFragment<MatchesViewModel> retainedViewModel =
+                (ViewModelHolderFragment<MatchesViewModel>) getSupportFragmentManager()
+                        .findFragmentByTag(tag);
+
+        if (retainedViewModel != null && retainedViewModel.getViewmodel() != null) {
+            // If the model was retained, return it.
+            return retainedViewModel.getViewmodel();
+        } else {
+            // There is no ViewModel yet, create it.
+            MatchesViewModel viewModel = new MatchesViewModel(MatchesActivity.this, MatchStatus.valueOf(tag), getSupportLoaderManager());
+            // and bind it to this Activity's lifecycle using the Fragment Manager.
+            ActivityUtils.addFragmentToActivity(
+                    getSupportFragmentManager(),
+                    ViewModelHolderFragment.createContainer(viewModel),
+                    tag);
+            return viewModel;
+        }
+    }
+
     class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private static final int LIVE_TAB_INDEX = 0;
+        private static final int UPCOMING_TAB_INDEX = 1;
+        private static final int RESULTS_TAB_INDEX = 2;
+
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
         public ViewPagerAdapter(FragmentManager manager) {
             super(manager);
+            initialize();
+        }
+
+        private void initialize() {
+            mFragmentTitleList.add(LIVE_TAB_INDEX, getString(R.string.live_tab_title));
+            mFragmentTitleList.add(UPCOMING_TAB_INDEX, getString(R.string.upcoming_tab_title));
+            mFragmentTitleList.add(RESULTS_TAB_INDEX, getString(R.string.results_tab_title));
         }
 
         @Override
         public Fragment getItem(int position) {
-            return mFragmentList.get(position);
+            return MatchesFragment.newInstance(getMatchTypeForPosition(position));
+        }
+
+        private MatchStatus getMatchTypeForPosition(int position) {
+            switch (position) {
+                case LIVE_TAB_INDEX:
+                    return MatchStatus.LIVE;
+                case UPCOMING_TAB_INDEX:
+                    return MatchStatus.UPCOMING;
+                case RESULTS_TAB_INDEX:
+                    return MatchStatus.COMPLETED;
+                default:
+                    throw new IndexOutOfBoundsException("Position " + position + "is not implemented");
+            }
         }
 
         @Override
         public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
+            return mFragmentTitleList.size();
         }
 
         @Override
@@ -83,32 +129,6 @@ public class MatchesActivity extends AppCompatActivity implements MatchItemNavig
     @Override
     public void openMatchDetails(int matchId) {
         Toast.makeText(this, "" + matchId, Toast.LENGTH_LONG).show();
-    }
-
-    private MatchesViewModel findOrCreateViewModel() {
-        // In a configuration change we might have a ViewModel present. It's retained using the
-        // Fragment Manager.
-        @SuppressWarnings("unchecked")
-        ViewModelHolder<MatchesViewModel> retainedViewModel =
-                (ViewModelHolder<MatchesViewModel>) getSupportFragmentManager()
-                        .findFragmentByTag(MATCHES_VIEWMODEL_TAG);
-
-        if (retainedViewModel != null && retainedViewModel.getViewmodel() != null) {
-            // If the model was retained, return it.
-            return retainedViewModel.getViewmodel();
-        } else {
-            // There is no ViewModel yet, create it.
-            MatchesViewModel viewModel = new MatchesViewModel(
-                    Injection.provideMatchesRepository(getApplicationContext()),
-                    getApplicationContext(),
-                    this);
-            // and bind it to this Activity's lifecycle using the Fragment Manager.
-            ActivityUtils.addFragmentToActivity(
-                    getSupportFragmentManager(),
-                    ViewModelHolder.createContainer(viewModel),
-                    MATCHES_VIEWMODEL_TAG);
-            return viewModel;
-        }
     }
 
 }

@@ -45,6 +45,26 @@ public class MatchViewModel extends BaseObservable implements LoaderManager.Load
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if (data != null) {
+            if (data.moveToLast()) {
+                onDataLoaded(data);
+            } else {
+                onDataEmpty();
+            }
+        } else {
+            onDataNotAvailable();
+        }
+    }
+
+    private void onDataNotAvailable() {
+
+    }
+
+    private void onDataEmpty() {
+
+    }
+
+    private void onDataLoaded(Cursor data) {
 
     }
 

@@ -8,14 +8,14 @@ import android.support.v4.app.Fragment;
 /**
  * Non-UI Fragment used to retain ViewModels.
  */
-public class ViewModelHolder<VM> extends Fragment {
+public class ViewModelHolderFragment<VM> extends Fragment {
 
     private VM mViewModel;
 
-    public ViewModelHolder() { }
+    public ViewModelHolderFragment() { }
 
-    public static <M> ViewModelHolder createContainer(@NonNull M viewModel) {
-        ViewModelHolder<M> mViewModelHolder = new ViewModelHolder<>();
+    public static <M> ViewModelHolderFragment createContainer(@NonNull M viewModel) {
+        ViewModelHolderFragment<M> mViewModelHolder = new ViewModelHolderFragment<>();
         mViewModelHolder.setViewModel(viewModel);
         return mViewModelHolder;
     }

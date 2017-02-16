@@ -10,7 +10,7 @@ public class ApplicationModule {
 
     private final Context mContext;
 
-    ApplicationModule(Context context) {
+    public ApplicationModule(Context context) {
         this.mContext = context;
     }
 

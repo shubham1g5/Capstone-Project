@@ -4,4 +4,6 @@
     <string name="live_tab_title">Live</string>
     <string name="results_tab_title">Results</string>
     <string name="upcoming_tab_title">Upcoming</string>
+
+    <string name="empty_matches_label">No %s matches</string>
 </resources>

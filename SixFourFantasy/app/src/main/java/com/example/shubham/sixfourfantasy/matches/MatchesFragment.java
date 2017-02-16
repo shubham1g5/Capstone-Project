@@ -12,32 +12,42 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.shubham.sixfourfantasy.R;
-import com.example.shubham.sixfourfantasy.data.model.Match;
+import com.example.shubham.sixfourfantasy.data.model.MatchStatus;
 import com.example.shubham.sixfourfantasy.databinding.MatchesFragBinding;
 
 import java.util.ArrayList;
 
 public class MatchesFragment extends Fragment {
 
+    public static final String MATCH_TYPE_KEY = "match_type";
+
     private MatchesViewModel mMatchesViewModel;
 
     private MatchesFragBinding mMatchesFragBinding;
 
-    public static MatchesFragment newInstance() {
-        return new MatchesFragment();
+    private boolean startViewModel = false;
+
+    public static MatchesFragment newInstance(MatchStatus matchType) {
+        Bundle args = new Bundle();
+        args.putString(MATCH_TYPE_KEY, matchType.toString());
+        MatchesFragment matchesFragment = new MatchesFragment();
+        matchesFragment.setArguments(args);
+        return matchesFragment;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mMatchesViewModel.start();
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
-
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if (mMatchesViewModel == null) {
+            mMatchesViewModel = ((MatchesActivity) getActivity()).attachViewModel(this);
+        }
+
         mMatchesFragBinding = MatchesFragBinding.inflate(inflater, container, false);
         mMatchesFragBinding.setView(this);
         mMatchesFragBinding.setViewmodel(mMatchesViewModel);
@@ -45,9 +55,6 @@ public class MatchesFragment extends Fragment {
         return root;
     }
 
-    public void setViewModel(MatchesViewModel viewModel) {
-        mMatchesViewModel = viewModel;
-    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -57,13 +64,20 @@ public class MatchesFragment extends Fragment {
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mMatchesViewModel.start();
+    }
+
+
     private void setupListAdapter() {
         RecyclerView recyclerView = mMatchesFragBinding.matcheslistRecyclerview;
         GridLayoutManager gridLayoutManager =
-                new GridLayoutManager(getActivity(),getResources().getInteger(R.integer.list_column_count));
+                new GridLayoutManager(getActivity(), getResources().getInteger(R.integer.list_column_count));
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        MatchesListAdapter mListAdapter = new MatchesListAdapter(new ArrayList<>(0),(MatchItemNavigator) getActivity());
+        MatchesListAdapter mListAdapter = new MatchesListAdapter(new ArrayList<>(0), (MatchItemNavigator) getActivity());
         recyclerView.setAdapter(mListAdapter);
     }
 

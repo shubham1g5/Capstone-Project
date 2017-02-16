@@ -1,6 +1,7 @@
 package com.example.shubham.sixfourfantasy.data.model;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.icu.util.TimeUnit;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -11,6 +12,23 @@ import com.example.shubham.sixfourfantasy.util.TimeUtils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+
+import static com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.MatchEntry.COL_FORMAT_INDEX;
+import static com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.MatchEntry.COL_IS_ABONDONE_INDEX;
+import static com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.MatchEntry.COL_IS_WOMEN_INDEX;
+import static com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.MatchEntry.COL_MATCH_ID_INDEX;
+import static com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.MatchEntry.COL_NAME_INDEX;
+import static com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.MatchEntry.COL_RESULT_INDEX;
+import static com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.MatchEntry.COL_SERIES_ID_INDEX;
+import static com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.MatchEntry.COL_SERIES_INDEX;
+import static com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.MatchEntry.COL_START_TIME_INDEX;
+import static com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.MatchEntry.COL_STATUS_INDEX;
+import static com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.MatchEntry.COL_TEAM1_ID_INDEX;
+import static com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.MatchEntry.COL_TEAM1_SCORE_INDEX;
+import static com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.MatchEntry.COL_TEAM2_ID_INDEX;
+import static com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.MatchEntry.COL_TEAM2_SCORE_INDEX;
+import static com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.MatchEntry.COL_VENUE_INDEX;
+import static com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.MatchEntry.COL_WINNING_TEAM_ID_INDEX;
 
 public class Match implements Parcelable {
 
@@ -133,5 +151,26 @@ public class Match implements Parcelable {
 
     public boolean isValid() throws ParseException {
         return isValidTeamId(team1.teamId) && isValidTeamId(team2.teamId) && TimeUtils.isInAMonth(startTime);
+    }
+
+    public static Match from(Cursor data) {
+        Match match = new Match();
+
+        match.matchId = data.getInt(COL_MATCH_ID_INDEX);
+        match.name = data.getString(COL_NAME_INDEX);
+        match.isWomen = data.getInt(COL_IS_WOMEN_INDEX) == 1;
+        match.status = MatchStatus.valueOf(data.getString(COL_STATUS_INDEX));
+        match.venue = data.getString(COL_VENUE_INDEX);
+        match.series = data.getString(COL_SERIES_INDEX);
+        match.startTime = data.getString(COL_START_TIME_INDEX);
+        match.winningTeamId = data.getInt(COL_WINNING_TEAM_ID_INDEX);
+        match.result = data.getString(COL_RESULT_INDEX);
+        match.team1Score = data.getString(COL_TEAM1_SCORE_INDEX);
+        match.team2Score = data.getString(COL_TEAM2_SCORE_INDEX);
+        match.format = MatchFormat.valueOf(data.getString(COL_FORMAT_INDEX));
+        match.seriesId = data.getInt(COL_SERIES_ID_INDEX);
+        match.isAbandoned = data.getInt(COL_IS_ABONDONE_INDEX) == 1;
+
+        return match;
     }
 }

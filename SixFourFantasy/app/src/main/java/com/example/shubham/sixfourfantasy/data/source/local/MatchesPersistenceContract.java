@@ -50,7 +50,6 @@ public class MatchesPersistenceContract {
 
 
         public static String[] MATCHES_COLUMNS = new String[]{
-                MatchEntry._ID,
                 COL_MATCH_ID,
                 COL_NAME,
                 COL_TEAM1_ID,
@@ -68,6 +67,24 @@ public class MatchesPersistenceContract {
                 COL_SERIES_ID,
                 COL_IS_ABONDONED
         };
+
+        public static int COL_MATCH_ID_INDEX = 0;
+        public static int COL_NAME_INDEX = 1;
+        public static int COL_TEAM1_ID_INDEX = 2;
+        public static int COL_TEAM2_ID_INDEX = 3;
+        public static int COL_IS_WOMEN_INDEX = 4;
+        public static int COL_STATUS_INDEX = 5;
+        public static int COL_VENUE_INDEX = 6;
+        public static int COL_SERIES_INDEX = 7;
+        public static int COL_START_TIME_INDEX = 8;
+        public static int COL_WINNING_TEAM_ID_INDEX = 9;
+        public static int COL_RESULT_INDEX = 10;
+        public static int COL_TEAM1_SCORE_INDEX = 11;
+        public static int COL_TEAM2_SCORE_INDEX = 12;
+        public static int COL_FORMAT_INDEX = 13;
+        public static int COL_SERIES_ID_INDEX = 14;
+        public static int COL_IS_ABONDONE_INDEX = 15;
+
 
         public static Uri buildMatchesUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
