@@ -15,8 +15,11 @@ public class MatchesProvider extends ContentProvider {
     private static final int MATCH = 100;
     private static final int MATCH_ITEM = 101;
     private static final int RUN = 300;
+    private static final int RUN_BY_MATCH = 301;
     private static final int WICKET = 400;
+    private static final int WICKET_BY_MATCH = 401;
     private static final int TEAM = 500;
+    private static final int TEAM_ITEM = 501;
     private static final int PLAYER = 600;
     private static final int TEAM_HAS_PLAYER = 700;
 
@@ -30,8 +33,11 @@ public class MatchesProvider extends ContentProvider {
         matcher.addURI(authority, MatchesPersistenceContract.MatchEntry.TABLE_NAME, MATCH);
         matcher.addURI(authority, MatchesPersistenceContract.MatchEntry.TABLE_NAME + "/*", MATCH_ITEM);
         matcher.addURI(authority, MatchesPersistenceContract.RunEntry.TABLE_NAME, RUN);
+        matcher.addURI(authority, MatchesPersistenceContract.RunEntry.TABLE_NAME + "/*", RUN_BY_MATCH);
         matcher.addURI(authority, MatchesPersistenceContract.WicketEntry.TABLE_NAME, WICKET);
+        matcher.addURI(authority, MatchesPersistenceContract.WicketEntry.TABLE_NAME + "/*", WICKET_BY_MATCH);
         matcher.addURI(authority, MatchesPersistenceContract.TeamEntry.TABLE_NAME, TEAM);
+        matcher.addURI(authority, MatchesPersistenceContract.TeamEntry.TABLE_NAME + "/*", TEAM_ITEM);
         matcher.addURI(authority, MatchesPersistenceContract.PlayerEntry.TABLE_NAME, PLAYER);
         matcher.addURI(authority, MatchesPersistenceContract.TeamHasPlayerEntry.TABLE_NAME, TEAM_HAS_PLAYER);
 
@@ -52,6 +58,18 @@ public class MatchesProvider extends ContentProvider {
                 return MatchesPersistenceContract.MatchEntry.CONTENT_TYPE;
             case MATCH_ITEM:
                 return MatchesPersistenceContract.MatchEntry.CONTENT_ITEM_TYPE;
+            case RUN:
+                return MatchesPersistenceContract.RunEntry.CONTENT_TYPE;
+            case RUN_BY_MATCH:
+                return MatchesPersistenceContract.RunEntry.CONTENT_TYPE;
+            case WICKET:
+                return MatchesPersistenceContract.WicketEntry.CONTENT_TYPE;
+            case WICKET_BY_MATCH:
+                return MatchesPersistenceContract.WicketEntry.CONTENT_TYPE;
+            case TEAM:
+                return MatchesPersistenceContract.TeamEntry.CONTENT_TYPE;
+            case TEAM_ITEM:
+                return MatchesPersistenceContract.TeamEntry.CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -74,17 +92,28 @@ public class MatchesProvider extends ContentProvider {
                 );
                 break;
             case MATCH_ITEM:
-                String[] where = {uri.getLastPathSegment()};
                 retCursor = mMatchesDbHelper.getReadableDatabase().query(
                         MatchesPersistenceContract.MatchEntry.TABLE_NAME,
                         projection,
                         MatchesPersistenceContract.MatchEntry.COL_MATCH_ID + " = ?",
-                        where,
+                        new String[]{uri.getLastPathSegment()},
                         null,
                         null,
                         sortOrder
                 );
                 break;
+            case TEAM_ITEM:
+                retCursor = mMatchesDbHelper.getReadableDatabase().query(
+                        MatchesPersistenceContract.TeamEntry.TABLE_NAME,
+                        projection,
+                        MatchesPersistenceContract.TeamEntry.COL_TEAM_ID + " = ?",
+                        new String[]{uri.getLastPathSegment()},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            case RUN:
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }

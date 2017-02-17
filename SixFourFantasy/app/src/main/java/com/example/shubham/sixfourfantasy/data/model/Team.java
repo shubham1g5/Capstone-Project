@@ -19,6 +19,10 @@ public class Team implements Parcelable {
     @Nullable
     public List<Player> players;
 
+    public Team(int teamId){
+        this.teamId = teamId;
+    }
+
     public Team(int teamId, String name, String image, String symbol, List<Player> players) {
         this.teamId = teamId;
         this.name = name;

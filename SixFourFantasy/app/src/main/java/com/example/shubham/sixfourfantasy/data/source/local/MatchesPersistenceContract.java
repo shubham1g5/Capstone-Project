@@ -120,7 +120,6 @@ public class MatchesPersistenceContract {
         public static final String COL_OUT = "out";
 
         public static String[] RUNS_COLUMNS = new String[]{
-                RunEntry._ID,
                 COL_MATCH_ID,
                 COL_INNINGS_NO,
                 COL_PLAYER_ID,
@@ -131,6 +130,18 @@ public class MatchesPersistenceContract {
                 COL_STRIKE_RATE,
                 COL_FOW,
                 COL_OUT};
+
+        public static int COL_MATCH_ID_INDEX = 0;
+        public static int COL_INNINGS_NO_INDEX = 1;
+        public static int COL_PLAYER_ID_INDEX = 2;
+        public static int COL_RUNS_INDEX = 3;
+        public static int COL_BALLS_INDEX = 4;
+        public static int COL_FOURS_INDEX = 5;
+        public static int COL_SIXES_INDEX = 6;
+        public static int COL_STRIKE_RATE_INDEX = 7;
+        public static int COL_FOW_INDEX = 8;
+        public static int COL_OUT_INDEX = 9;
+
 
         public static Uri buildRunsUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
@@ -166,7 +177,6 @@ public class MatchesPersistenceContract {
         public static final String COL_WIDE_BALLS = "wide_balls";
 
         public static String[] WICKETS_COLUMNS = new String[]{
-                WicketEntry._ID,
                 COL_MATCH_ID,
                 COL_INNINGS_NO,
                 COL_PLAYER_ID,
@@ -177,6 +187,18 @@ public class MatchesPersistenceContract {
                 COL_ECONOMY,
                 COL_NO_BALLS,
                 COL_WIDE_BALLS};
+
+        public static int COL_MATCH_ID_INDEX = 0;
+        public static int COL_INNINGS_NO_INDEX = 1;
+        public static int COL_PLAYER_ID_INDEX = 2;
+        public static int COL_RUNS_INDEX = 3;
+        public static int COL_OVERS_INDEX = 4;
+        public static int COL_MAIDEN_INDEX = 5;
+        public static int COL_WICKETS_INDEX = 6;
+        public static int COL_ECONOMY_INDEX = 7;
+        public static int COL_NO_BALLS_INDEX = 8;
+        public static int COL_WIDE_BALLS_INDEX = 9;
+
 
         public static Uri buildWicketsUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
@@ -206,11 +228,15 @@ public class MatchesPersistenceContract {
         public static final String COL_SYMBOL = "symbol";
 
         public static String[] TEAMS_COLUMNS = new String[]{
-                TeamEntry._ID,
                 COL_TEAM_ID,
                 COL_NAME,
                 COL_IMAGE,
                 COL_SYMBOL};
+
+        public static int COL_TEAM_ID_INDEX = 0;
+        public static int COL_NAME_INDEX = 1;
+        public static int COL_IMAGE_INDEX = 2;
+        public static int COL_SYMBOL_INDEX = 3;
 
         public static Uri buildTeamsUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);

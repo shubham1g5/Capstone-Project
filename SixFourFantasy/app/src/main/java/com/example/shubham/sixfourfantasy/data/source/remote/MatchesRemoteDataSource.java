@@ -58,6 +58,11 @@ public class MatchesRemoteDataSource implements MatchesDataSource {
     }
 
     @Override
+    public Observable<Team> getTeam(@NonNull int teamId) {
+        return null;
+    }
+
+    @Override
     public void saveMatch(Match match) {
 
     }

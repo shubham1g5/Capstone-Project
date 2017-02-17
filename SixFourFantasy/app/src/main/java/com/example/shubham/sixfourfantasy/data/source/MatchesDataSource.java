@@ -7,6 +7,7 @@ import com.example.shubham.sixfourfantasy.data.jsonmodel.PlayersByMatch;
 import com.example.shubham.sixfourfantasy.data.model.Inning;
 import com.example.shubham.sixfourfantasy.data.model.Match;
 import com.example.shubham.sixfourfantasy.data.model.Player;
+import com.example.shubham.sixfourfantasy.data.model.RunsCard;
 import com.example.shubham.sixfourfantasy.data.model.Team;
 
 import java.util.List;
@@ -24,6 +25,12 @@ public interface MatchesDataSource {
     Observable<List<Match>> getMatches();
 
     Observable<Match> getMatch(@NonNull String matchId);
+
+    Observable<Team> getTeam(@NonNull int teamId);
+
+//    Observable<List<RunsCard>> getRunCards(@NonNull String matchId);
+//
+//    Observable<List<RunsCard>> getWicketCards(@NonNull String matchId);
 
     void saveMatch(Match match);
 

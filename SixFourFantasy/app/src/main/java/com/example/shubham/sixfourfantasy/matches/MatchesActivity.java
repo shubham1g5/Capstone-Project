@@ -1,7 +1,6 @@
 package com.example.shubham.sixfourfantasy.matches;
 
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
+import com.example.shubham.sixfourfantasy.MyApplication;
 import com.example.shubham.sixfourfantasy.R;
 import com.example.shubham.sixfourfantasy.ViewModelHolderFragment;
 import com.example.shubham.sixfourfantasy.data.model.MatchStatus;
@@ -69,7 +69,10 @@ public class MatchesActivity extends AppCompatActivity implements MatchItemNavig
             return retainedViewModel.getViewmodel();
         } else {
             // There is no ViewModel yet, create it.
-            MatchesViewModel viewModel = new MatchesViewModel(MatchesActivity.this, MatchStatus.valueOf(tag), getSupportLoaderManager());
+            MatchesViewModel viewModel = new MatchesViewModel(MatchesActivity.this,
+                    MatchStatus.valueOf(tag),
+                    getSupportLoaderManager(),
+                    ((MyApplication) getApplication()).getMatchesRepositoryComponent().getMatchesRepository());
             // and bind it to this Activity's lifecycle using the Fragment Manager.
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(),

@@ -113,6 +113,11 @@ public class MatchesRepository implements MatchesDataSource {
     }
 
     @Override
+    public Observable<Team> getTeam(@NonNull int teamId) {
+        return mMatchesLocalDataSource.getTeam(teamId);
+    }
+
+    @Override
     public void saveMatch(Match match) {
 
     }

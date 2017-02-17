@@ -10,12 +10,25 @@ public class TimeUtils {
 
 
     private static final java.lang.String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
+    private static final java.lang.String DISPLAY_TIME_FORMAT = "HH:mm z";
+    private static final java.lang.String DISPLAY_DATE_FORMAT = "MMM dd, yyyy";
 
     public static boolean isInAMonth(String time) throws ParseException {
-        Date date = new SimpleDateFormat(DATE_FORMAT).parse(time.replaceAll("Z$", "+0000"));
         Calendar timeCal = Calendar.getInstance();
-        timeCal.setTime(date);
+        timeCal.setTime(getDate(time));
         Calendar now = Calendar.getInstance();
         return Math.abs(now.get(Calendar.DAY_OF_YEAR) - timeCal.get(Calendar.DAY_OF_YEAR)) <= 31;
+    }
+
+    public static String getTimeWithZ(String startTime) throws ParseException {
+        return  new SimpleDateFormat(DISPLAY_TIME_FORMAT).format(getDate(startTime));
+    }
+
+    public static String getDisplayDate(String startTime) throws ParseException {
+        return  new SimpleDateFormat(DISPLAY_DATE_FORMAT).format(getDate(startTime));
+    }
+
+    private static Date getDate(String date) throws ParseException {
+        return new SimpleDateFormat(DATE_FORMAT).parse(date.replaceAll("Z$", "+0000"));
     }
 }

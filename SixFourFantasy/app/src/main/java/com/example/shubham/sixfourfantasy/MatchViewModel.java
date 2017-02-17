@@ -1,20 +1,29 @@
 package com.example.shubham.sixfourfantasy;
 
-import android.database.Cursor;
 import android.databinding.BaseObservable;
 import android.databinding.Observable;
 import android.databinding.ObservableField;
-import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 
 import com.example.shubham.sixfourfantasy.data.model.Match;
+import com.example.shubham.sixfourfantasy.data.model.MatchStatus;
+import com.example.shubham.sixfourfantasy.util.TimeUtils;
 
 import org.jetbrains.annotations.NotNull;
 
-public class MatchViewModel extends BaseObservable implements LoaderManager.LoaderCallbacks<Cursor>{
+import java.text.ParseException;
+
+public class MatchViewModel extends BaseObservable {
 
     public final ObservableField<String> title = new ObservableField<>();
+    public final ObservableField<String> series = new ObservableField<>();
+    public final ObservableField<String> team1 = new ObservableField<>();
+    public final ObservableField<String> team2 = new ObservableField<>();
+    public final ObservableField<String> team1Score = new ObservableField<>();
+    public final ObservableField<String> team2Score = new ObservableField<>();
+    public final ObservableField<String> venue = new ObservableField<>();
+    public final ObservableField<String> result = new ObservableField<>();
+
+    public final ObservableField<Boolean> resultAvailable = new ObservableField<>(false);
 
     private final ObservableField<Match> mMatchObservable = new ObservableField<>();
 
@@ -24,7 +33,39 @@ public class MatchViewModel extends BaseObservable implements LoaderManager.Load
             @Override
             public void onPropertyChanged(Observable observable, int i) {
                 Match match = mMatchObservable.get();
-                title.set(match.name);
+                title.set(getTitle(match));
+                series.set(match.series);
+                team1.set(match.team1.symbol);
+                team2.set(match.team2.symbol);
+                team1Score.set(match.team1Score);
+                team2Score.set(match.team2Score);
+                result.set(match.result);
+                venue.set(getTimeVenueString(match));
+                resultAvailable.set(match.status != MatchStatus.UPCOMING);
+            }
+
+            private String getTitle(Match match) {
+                String title = match.name;
+                try {
+                    title += "  ";
+                    title += TimeUtils.getDisplayDate(match.startTime);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return title;
+            }
+
+            private String getTimeVenueString(Match match) {
+                String timeVenueStr = match.venue;
+                if(match.status == MatchStatus.UPCOMING){
+                    try {
+                        timeVenueStr += "|";
+                        timeVenueStr += TimeUtils.getTimeWithZ(match.startTime);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return timeVenueStr;
             }
         });
     }
@@ -36,40 +77,5 @@ public class MatchViewModel extends BaseObservable implements LoaderManager.Load
 
     protected int getMatchId() {
         return mMatchObservable.get().matchId;
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data != null) {
-            if (data.moveToLast()) {
-                onDataLoaded(data);
-            } else {
-                onDataEmpty();
-            }
-        } else {
-            onDataNotAvailable();
-        }
-    }
-
-    private void onDataNotAvailable() {
-
-    }
-
-    private void onDataEmpty() {
-
-    }
-
-    private void onDataLoaded(Cursor data) {
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
     }
 }

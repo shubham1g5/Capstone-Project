@@ -26,6 +26,9 @@ public class RunsCard implements Parcelable {
     public transient int matchId = -1;
     public transient int inningsNo = -1;
 
+    public RunsCard() {
+    }
+
     protected RunsCard(Parcel in) {
         matchId = in.readInt();
         inningsNo = in.readInt();

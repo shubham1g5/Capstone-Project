@@ -2,7 +2,6 @@ package com.example.shubham.sixfourfantasy.data.model;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.icu.util.TimeUnit;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -10,7 +9,6 @@ import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceCo
 import com.example.shubham.sixfourfantasy.util.TimeUtils;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import static com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.MatchEntry.COL_FORMAT_INDEX;
@@ -144,7 +142,6 @@ public class Match implements Parcelable {
     }
 
 
-
     private boolean isValidTeamId(int teamId) {
         return teamId >= MIN_INTERNATIONAL_TEAM_ID && teamId <= MAX_INTERNATIONAL_TEAM_ID;
     }
@@ -171,6 +168,8 @@ public class Match implements Parcelable {
         match.seriesId = data.getInt(COL_SERIES_ID_INDEX);
         match.isAbandoned = data.getInt(COL_IS_ABONDONE_INDEX) == 1;
 
+        match.team1 = new Team(data.getInt(COL_TEAM1_ID_INDEX));
+        match.team2 = new Team(data.getInt(COL_TEAM2_ID_INDEX));
         return match;
     }
 }

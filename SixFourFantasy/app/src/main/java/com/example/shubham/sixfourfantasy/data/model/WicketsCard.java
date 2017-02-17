@@ -22,6 +22,9 @@ public class WicketsCard implements Parcelable {
     public transient int matchId = -1;
     public transient int inningsNo = -1;
 
+    public WicketsCard() {
+    }
+
     protected WicketsCard(Parcel in) {
         matchId = in.readInt();
         inningsNo = in.readInt();

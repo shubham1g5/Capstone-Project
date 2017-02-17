@@ -17,10 +17,13 @@ import com.example.shubham.sixfourfantasy.BR;
 import com.example.shubham.sixfourfantasy.R;
 import com.example.shubham.sixfourfantasy.data.model.Match;
 import com.example.shubham.sixfourfantasy.data.model.MatchStatus;
+import com.example.shubham.sixfourfantasy.data.source.MatchesRepository;
 import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.Observable;
 
 public class MatchesViewModel extends BaseObservable implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -31,14 +34,17 @@ public class MatchesViewModel extends BaseObservable implements LoaderManager.Lo
 
     public final ObservableField<String> noMatchesLabel = new ObservableField<>();
 
+    private final MatchesRepository mMatchesRepository;
+
     private Context mContext; // To avoid leaks, this must be an Application Context.
     private MatchStatus mMatchType;
     private LoaderManager mLoaderManager;
 
-    public MatchesViewModel(Context context, MatchStatus matchType, LoaderManager loaderManager) {
+    public MatchesViewModel(Context context, MatchStatus matchType, LoaderManager loaderManager, MatchesRepository matchesRepository) {
         mContext = context.getApplicationContext(); // Force use of Application Context.
         mMatchType = matchType;
         mLoaderManager = loaderManager;
+        mMatchesRepository = matchesRepository;
     }
 
     @Bindable
@@ -70,19 +76,39 @@ public class MatchesViewModel extends BaseObservable implements LoaderManager.Lo
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         dataLoading.set(false);
-        if (data != null) {
-            onDataLoaded(data);
+        if (data != null && data.moveToFirst()) {
+            List<Match> matches = new ArrayList<>();
+            onDataLoaded(matches, data);
         }
     }
 
-    private void onDataLoaded(Cursor data) {
-        List<Match> matches = new ArrayList<>();
-        if (data.moveToFirst()) {
-            do {
-                matches.add(Match.from(data));
-            }
-            while (data.moveToNext());
-        }
+    private void onDataLoaded(List<Match> matches, Cursor data) {
+
+        Match match = Match.from(data);
+
+        Observable.zip(
+                mMatchesRepository.getTeam(match.team1.teamId),
+                mMatchesRepository.getTeam(match.team2.teamId),
+                (team1, team2) -> {
+                    match.team1 = team1;
+                    match.team2 = team2;
+                    return match;
+                }
+        ).subscribe(
+                // doNext
+                match1 -> {
+                    matches.add(match1);
+                    if (data.moveToNext())
+                        onDataLoaded(matches, data);
+                    else
+                        setItems(matches);
+                },
+                // OnError
+                Throwable::printStackTrace
+        );
+    }
+
+    private void setItems(List<Match> matches) {
         items.clear();
         items.addAll(matches);
         notifyPropertyChanged(BR.empty); // It's a @Bindable so update manually
