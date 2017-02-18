@@ -35,11 +35,6 @@ public class MatchesFragment extends Fragment {
         return matchesFragment;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,7 +44,6 @@ public class MatchesFragment extends Fragment {
         }
 
         mMatchesFragBinding = MatchesFragBinding.inflate(inflater, container, false);
-        mMatchesFragBinding.setView(this);
         mMatchesFragBinding.setViewmodel(mMatchesViewModel);
         View root = mMatchesFragBinding.getRoot();
         return root;

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.example.shubham.sixfourfantasy.matchdetail.ScoreHeaderViewModel" />
+    </data>
+
+    <android.support.v7.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/cardview_margin"
+        android:layout_marginLeft="@dimen/cardview_margin"
+        android:layout_marginRight="@dimen/cardview_margin"
+        android:layout_marginTop="@dimen/cardview_margin"
+        app:columnCount="6">
+
+        <TextView
+            android:gravity="center_horizontal"
+            android:text="@{viewmodel.mCardType == 0 ? @string/batsmen : @string/bowler}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/textColorPrimary"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill_horizontal" />
+
+        <TextView
+            android:gravity="center_horizontal"
+            android:text="@{viewmodel.mCardType == 0 ? @string/run : @string/over}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/textColorPrimary"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill_horizontal" />
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:gravity="center_horizontal"
+            android:text="@{viewmodel.mCardType == 0 ? @string/ball : @string/run}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/textColorPrimary"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill_horizontal" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:gravity="center_horizontal"
+            android:text="@{viewmodel.mCardType == 0 ? @string/four : @string/wicket}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/textColorPrimary"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill_horizontal" />
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:gravity="center_horizontal"
+            android:text="@{viewmodel.mCardType == 0 ? @string/six : @string/maiden}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/textColorPrimary"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill_horizontal" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:gravity="center_horizontal"
+            android:text="@{viewmodel.mCardType == 0 ? @string/strikeRate : @string/economy}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/textColorPrimary"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill_horizontal" />
+    </android.support.v7.widget.GridLayout>
+
+</layout>

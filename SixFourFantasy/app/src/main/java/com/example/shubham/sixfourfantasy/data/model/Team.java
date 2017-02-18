@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 
 import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Team implements Parcelable {
@@ -16,8 +17,7 @@ public class Team implements Parcelable {
     public String image;
     public String symbol;
 
-    @Nullable
-    public List<Player> players;
+    public List<Player> players = new ArrayList<>();
 
     public Team(int teamId){
         this.teamId = teamId;

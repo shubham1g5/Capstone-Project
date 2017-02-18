@@ -134,7 +134,7 @@ public class MatchesRepository implements MatchesDataSource {
 
     @Override
     public Observable<List<Inning>> getScoresForMatch(Match match) {
-        return null;
+        return mMatchesLocalDataSource.getScoresForMatch(match);
     }
 
     public void refreshTasks() {

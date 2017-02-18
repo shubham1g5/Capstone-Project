@@ -1,17 +1,16 @@
 package com.example.shubham.sixfourfantasy.matches;
 
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.example.shubham.sixfourfantasy.BR;
+import com.example.shubham.sixfourfantasy.BindingHolder;
 import com.example.shubham.sixfourfantasy.data.model.Match;
 import com.example.shubham.sixfourfantasy.databinding.MatchItemBinding;
 
 import java.util.List;
 
-public class MatchesListAdapter extends RecyclerView.Adapter<MatchesListAdapter.BindingHolder> {
+public class MatchesListAdapter extends RecyclerView.Adapter<BindingHolder> {
 
     private final MatchItemNavigator mMatchItemNavigator;
 
@@ -56,20 +55,5 @@ public class MatchesListAdapter extends RecyclerView.Adapter<MatchesListAdapter.
     private void setList(List<Match> Matches) {
         mMatches = Matches;
         notifyDataSetChanged();
-    }
-
-    public class BindingHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        private final MatchItemBinding mBinding;
-
-        public BindingHolder(@NonNull MatchItemBinding matchItemBinding) {
-            super(matchItemBinding.getRoot());
-            mBinding = matchItemBinding;
-        }
-
-        public void bind(MatchItemViewModel matchItemViewModel) {
-            mBinding.setVariable(BR.viewmodel, matchItemViewModel);
-            mBinding.executePendingBindings();
-        }
     }
 }

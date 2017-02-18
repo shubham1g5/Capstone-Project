@@ -22,6 +22,7 @@ public class MatchViewModel extends BaseObservable {
     public final ObservableField<String> team2Score = new ObservableField<>();
     public final ObservableField<String> venue = new ObservableField<>();
     public final ObservableField<String> result = new ObservableField<>();
+//    public final ObservableList<Inning> innings = new ObservableArrayList<>();
 
     public final ObservableField<Boolean> resultAvailable = new ObservableField<>(false);
 
@@ -57,7 +58,7 @@ public class MatchViewModel extends BaseObservable {
 
             private String getTimeVenueString(Match match) {
                 String timeVenueStr = match.venue;
-                if(match.status == MatchStatus.UPCOMING){
+                if (match.status == MatchStatus.UPCOMING) {
                     try {
                         timeVenueStr += "|";
                         timeVenueStr += TimeUtils.getTimeWithZ(match.startTime);
@@ -75,7 +76,12 @@ public class MatchViewModel extends BaseObservable {
     }
 
 
-    protected int getMatchId() {
-        return mMatchObservable.get().matchId;
+    protected Match getMatch() {
+        return mMatchObservable.get();
     }
+
+//    protected void setInnings(List<Inning> inningList) {
+//        innings.clear();
+//        innings.addAll(inningList);
+//    }
 }

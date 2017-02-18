@@ -8,10 +8,6 @@
         <import type="android.view.View" />
 
         <variable
-            name="view"
-            type="com.example.shubham.sixfourfantasy.matches.MatchesFragment" />
-
-        <variable
             name="viewmodel"
             type="com.example.shubham.sixfourfantasy.matches.MatchesViewModel" />
 

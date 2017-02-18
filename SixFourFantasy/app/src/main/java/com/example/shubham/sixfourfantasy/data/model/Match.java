@@ -9,6 +9,7 @@ import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceCo
 import com.example.shubham.sixfourfantasy.util.TimeUtils;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract.MatchEntry.COL_FORMAT_INDEX;
@@ -51,7 +52,7 @@ public class Match implements Parcelable {
     public int seriesId;
     public boolean isAbandoned;
 
-    public transient List<Inning> innings;
+    public transient List<Inning> innings = new ArrayList<>();
 
 
     public Match() {

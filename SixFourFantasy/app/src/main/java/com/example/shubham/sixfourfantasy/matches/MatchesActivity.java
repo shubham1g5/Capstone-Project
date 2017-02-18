@@ -1,5 +1,6 @@
 package com.example.shubham.sixfourfantasy.matches;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,8 +14,10 @@ import android.widget.Toast;
 import com.example.shubham.sixfourfantasy.MyApplication;
 import com.example.shubham.sixfourfantasy.R;
 import com.example.shubham.sixfourfantasy.ViewModelHolderFragment;
+import com.example.shubham.sixfourfantasy.data.model.Match;
 import com.example.shubham.sixfourfantasy.data.model.MatchStatus;
 import com.example.shubham.sixfourfantasy.data.sync.MatchesSyncUtils;
+import com.example.shubham.sixfourfantasy.matchdetail.MatchDetailActivity;
 import com.example.shubham.sixfourfantasy.util.ActivityUtils;
 
 import java.util.ArrayList;
@@ -23,6 +26,8 @@ import java.util.List;
 import static com.example.shubham.sixfourfantasy.matches.MatchesFragment.MATCH_TYPE_KEY;
 
 public class MatchesActivity extends AppCompatActivity implements MatchItemNavigator {
+
+    public static final String EXTRA_MATCH = "extra_match";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,8 +135,11 @@ public class MatchesActivity extends AppCompatActivity implements MatchItemNavig
     }
 
     @Override
-    public void openMatchDetails(int matchId) {
-        Toast.makeText(this, "" + matchId, Toast.LENGTH_LONG).show();
+    public void openMatchDetails(Match match) {
+        Toast.makeText(this, "" + match.matchId, Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, MatchDetailActivity.class);
+        intent.putExtra(EXTRA_MATCH, match);
+        startActivity(intent);
     }
 
 }

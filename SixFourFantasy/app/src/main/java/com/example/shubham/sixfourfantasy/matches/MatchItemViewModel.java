@@ -15,7 +15,6 @@ public class MatchItemViewModel extends MatchViewModel {
      * Called by the Data Binding library when the row is clicked.
      */
     public void matchClicked() {
-        int matchId = getMatchId();
-        mMatchItemNavigator.openMatchDetails(matchId);
+        mMatchItemNavigator.openMatchDetails(getMatch());
     }
 }

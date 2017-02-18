@@ -6,4 +6,16 @@
     <string name="upcoming_tab_title">Upcoming</string>
 
     <string name="empty_matches_label">No %s matches</string>
+
+    <string name="batsmen">Batsman</string>
+    <string name="bowler">Bowler</string>
+    <string name="run">R</string>
+    <string name="over">O</string>
+    <string name="ball">B</string>
+    <string name="four">4s</string>
+    <string name="wicket">W</string>
+    <string name="six">6s</string>
+    <string name="maiden">M</string>
+    <string name="strikeRate">SR</string>
+    <string name="economy">Eco</string>
 </resources>

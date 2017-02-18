@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.example.shubham.sixfourfantasy.matchdetail.WicketCardViewModel" />
+    </data>
+
+    <android.support.v7.widget.GridLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/cardview_margin"
+        android:layout_marginLeft="@dimen/cardview_margin"
+        android:layout_marginRight="@dimen/cardview_margin"
+        android:layout_marginTop="@dimen/cardview_margin"
+        app:columnCount="6">
+
+        <TextView
+            android:gravity="center_horizontal"
+            android:text="@{viewmodel.player}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/textColorPrimary"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill_horizontal"
+            tools:text="Rahul Dravid" />
+
+        <TextView
+            android:gravity="center_horizontal"
+            android:text="@{viewmodel.overs}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/textColorPrimary"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill_horizontal"
+            tools:text="5.3" />
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:gravity="center_horizontal"
+            android:text="@{viewmodel.runs}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/textColorPrimary"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill_horizontal"
+            tools:text="34" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:gravity="center_horizontal"
+            android:text="@{viewmodel.wickets}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/textColorPrimary"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill_horizontal"
+            tools:text="2" />
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:gravity="center_horizontal"
+            android:text="@{viewmodel.maidens}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/textColorPrimary"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill_horizontal"
+            tools:text="1" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:gravity="center_horizontal"
+            android:text="@{viewmodel.economy}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/textColorPrimary"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill_horizontal"
+            tools:text="4.2" />
+    </android.support.v7.widget.GridLayout>
+
+</layout>

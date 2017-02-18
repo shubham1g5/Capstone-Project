@@ -2,9 +2,6 @@
 <layout>
 
     <data>
-
-        <import type="android.view.View" />
-
         <variable
             name="viewmodel"
             type="com.example.shubham.sixfourfantasy.matches.MatchItemViewModel" />
@@ -12,7 +9,6 @@
 
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/cardview_margin"
@@ -22,125 +18,12 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?selectableItemBackground"
-        app:cardBackgroundColor="@color/cardBackground"
-        android:onClick="@{() -> viewmodel.matchClicked()}">
+        android:onClick="@{() -> viewmodel.matchClicked()}"
+        app:cardBackgroundColor="@color/cardBackground">
 
-        <!--<android.support.v7.widget.CardView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--&gt;-->
-
-        <android.support.v7.widget.GridLayout
-            android:layout_marginBottom="@dimen/cardview_margin"
-            android:layout_marginLeft="@dimen/cardview_margin"
-            android:layout_marginRight="@dimen/cardview_margin"
-            android:layout_marginTop="@dimen/cardview_margin"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:columnCount="2">
-
-
-            <TextView
-                android:gravity="center_horizontal"
-                android:text="@{viewmodel.title}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                app:layout_columnSpan="2"
-                app:layout_columnWeight="1"
-                app:layout_gravity="fill_horizontal"
-                android:textColor="@color/textColorPrimary"
-                tools:text="1st ODI AT MUMBAI, FEB 3, 2017" />
-
-            <TextView
-                android:gravity="center_horizontal"
-                android:text="@{viewmodel.series}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                app:layout_columnSpan="2"
-                app:layout_columnWeight="1"
-                app:layout_gravity="fill_horizontal"
-                android:textColor="@color/textColorPrimary"
-                tools:text="1st ODI AT MUMBAI, FEB 3, 2017" />
-
-            <android.support.v4.widget.Space
-                android:layout_height="@dimen/activity_horizontal_margin"
-                app:layout_columnSpan="2"
-                app:layout_columnWeight="1"
-                app:layout_rowWeight="1" />
-
-
-            <TextView
-                android:layout_width="0dp"
-                android:gravity="center_horizontal"
-                android:text="@{viewmodel.team1}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="@color/textColorPrimary"
-                app:layout_columnWeight="1"
-                app:layout_gravity="fill_horizontal"
-                tools:text="IND" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:gravity="center_horizontal"
-                android:text="@{viewmodel.team1Score}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="@color/textColorPrimary"
-                app:layout_columnWeight="1"
-                app:layout_gravity="fill_horizontal"
-                tools:text="242/3 (44.3" />
-
-
-            <TextView
-                android:layout_width="0dp"
-                android:gravity="center_horizontal"
-                android:text="@{viewmodel.team2}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="@color/textColorPrimary"
-                app:layout_columnWeight="1"
-                app:layout_gravity="fill_horizontal"
-                tools:text="AUS" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:gravity="center_horizontal"
-                android:text="@{viewmodel.team2Score}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="@color/textColorPrimary"
-                app:layout_columnWeight="1"
-                app:layout_gravity="fill_horizontal"
-                tools:text="290/7 (50)" />
-
-            <android.support.v4.widget.Space
-                android:layout_height="@dimen/activity_horizontal_margin"
-                app:layout_columnSpan="2"
-                app:layout_columnWeight="1"
-                app:layout_rowWeight="1" />
-
-
-            <TextView
-                android:gravity="center_horizontal"
-                android:text="@{viewmodel.result}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:visibility="@{viewmodel.resultAvailable ? View.VISIBLE : View.GONE}"
-                app:layout_columnSpan="2"
-                android:textColor="@color/textColorPrimary"
-                app:layout_columnWeight="1"
-                app:layout_gravity="fill_horizontal"
-                tools:text="Vankhede Stadium Mumbai| 13:30" />
-
-            <TextView
-                android:gravity="center_horizontal"
-                android:text="@{viewmodel.venue}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                app:layout_columnSpan="2"
-                app:layout_columnWeight="1"
-                app:layout_gravity="fill_horizontal"
-                android:textColor="@color/textColorPrimary"
-                tools:text="Vankhede Stadium Mumbai| 13:30" />
-
-
-        </android.support.v7.widget.GridLayout>
-
-
+        <include
+            layout="@layout/match_summary"
+            app:viewmodel="@{viewmodel}" />
     </android.support.v7.widget.CardView>
 
-    <!--</android.support.v7.widget.CardView>-->
 </layout>

@@ -1,5 +1,7 @@
 package com.example.shubham.sixfourfantasy.matches;
 
+import com.example.shubham.sixfourfantasy.data.model.Match;
+
 public interface MatchItemNavigator {
-    void openMatchDetails(int matchId);
+    void openMatchDetails(Match match);
 }
