@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
@@ -25,6 +26,35 @@ public class MatchesProvider extends ContentProvider {
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private MatchesDbHelper mMatchesDbHelper;
+
+    private static final SQLiteQueryBuilder sRunsByPlayerQueryBuilder;
+    private static final SQLiteQueryBuilder sWicketsByPlayerQueryBuilder;
+
+    static {
+        sRunsByPlayerQueryBuilder = new SQLiteQueryBuilder();
+
+        //This is an inner join which looks like
+        //weather INNER JOIN location ON weather.location_id = location._id
+        sRunsByPlayerQueryBuilder.setTables(
+                MatchesPersistenceContract.RunEntry.TABLE_NAME + " INNER JOIN " +
+                        MatchesPersistenceContract.PlayerEntry.TABLE_NAME +
+                        " ON " + MatchesPersistenceContract.RunEntry.TABLE_NAME +
+                        "." + MatchesPersistenceContract.RunEntry.COL_PLAYER_ID +
+                        " = " + MatchesPersistenceContract.PlayerEntry.TABLE_NAME +
+                        "." + MatchesPersistenceContract.PlayerEntry.COL_PLAYER_ID);
+
+        sWicketsByPlayerQueryBuilder = new SQLiteQueryBuilder();
+
+        //This is an inner join which looks like
+        //weather INNER JOIN location ON weather.location_id = location._id
+        sWicketsByPlayerQueryBuilder.setTables(
+                MatchesPersistenceContract.WicketEntry.TABLE_NAME + " INNER JOIN " +
+                        MatchesPersistenceContract.PlayerEntry.TABLE_NAME +
+                        " ON " + MatchesPersistenceContract.WicketEntry.TABLE_NAME +
+                        "." + MatchesPersistenceContract.WicketEntry.COL_PLAYER_ID +
+                        " = " + MatchesPersistenceContract.PlayerEntry.TABLE_NAME +
+                        "." + MatchesPersistenceContract.PlayerEntry.COL_PLAYER_ID);
+    }
 
     private static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -113,7 +143,39 @@ public class MatchesProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
-            case RUN:
+            case RUN_BY_MATCH:
+                retCursor = sRunsByPlayerQueryBuilder.query(
+                        mMatchesDbHelper.getReadableDatabase(),
+                        projection,
+                        MatchesPersistenceContract.RunEntry.COL_MATCH_ID + " = ?",
+                        new String[]{uri.getLastPathSegment()},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            case WICKET_BY_MATCH:
+                retCursor = sWicketsByPlayerQueryBuilder.query(
+                        mMatchesDbHelper.getReadableDatabase(),
+                        projection,
+                        MatchesPersistenceContract.WicketEntry.COL_MATCH_ID + " = ?",
+                        new String[]{uri.getLastPathSegment()},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            case TEAM:
+                retCursor = mMatchesDbHelper.getReadableDatabase().query(
+                        MatchesPersistenceContract.TeamEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }

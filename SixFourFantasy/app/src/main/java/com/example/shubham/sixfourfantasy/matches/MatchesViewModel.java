@@ -19,6 +19,7 @@ import com.example.shubham.sixfourfantasy.data.model.Match;
 import com.example.shubham.sixfourfantasy.data.model.MatchStatus;
 import com.example.shubham.sixfourfantasy.data.source.MatchesRepository;
 import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract;
+import com.google.firebase.crash.FirebaseCrash;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +105,11 @@ public class MatchesViewModel extends BaseObservable implements LoaderManager.Lo
                         setItems(matches);
                 },
                 // OnError
-                Throwable::printStackTrace
+                throwable -> {
+                    throwable.printStackTrace();
+                    // reporting it to Firebase
+                    FirebaseCrash.report(throwable);
+                }
         );
     }
 

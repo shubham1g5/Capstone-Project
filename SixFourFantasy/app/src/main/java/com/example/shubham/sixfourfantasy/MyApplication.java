@@ -7,6 +7,9 @@ import com.example.shubham.sixfourfantasy.data.source.DaggerMatchesRepositoryCom
 import com.example.shubham.sixfourfantasy.data.source.MatchesRepositoryComponent;
 import com.facebook.stetho.Stetho;
 
+// TODO: 19/2/17 Live Match Scheduler
+// TODO: 19/2/17 Tab Layout
+// TODO: 19/2/17 signing configuration
 public class MyApplication extends Application {
 
     private MatchesRepositoryComponent mRepositoryComponent;

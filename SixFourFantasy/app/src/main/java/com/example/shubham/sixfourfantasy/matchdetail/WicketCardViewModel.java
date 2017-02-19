@@ -8,12 +8,12 @@ import com.example.shubham.sixfourfantasy.data.model.WicketsCard;
 
 public class WicketCardViewModel extends BaseObservable {
 
-    private final ObservableField<String> player = new ObservableField<>();
-    private final ObservableField<Integer> runs = new ObservableField<>();
-    private final ObservableField<Double> overs = new ObservableField<>();
-    private final ObservableField<Integer> maiden = new ObservableField<>();
-    private final ObservableField<Integer> wickets = new ObservableField<>();
-    private final ObservableField<Double> economy = new ObservableField<>();
+    public final ObservableField<String> player = new ObservableField<>();
+    public final ObservableField<Integer> runs = new ObservableField<>();
+    public final ObservableField<Double> overs = new ObservableField<>();
+    public final ObservableField<Integer> maiden = new ObservableField<>();
+    public final ObservableField<Integer> wickets = new ObservableField<>();
+    public final ObservableField<Integer> economy = new ObservableField<>();
 
     private final ObservableField<WicketsCard> mWicketsCardObservable = new ObservableField<>();
 
@@ -22,12 +22,12 @@ public class WicketCardViewModel extends BaseObservable {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
                 WicketsCard wicketsCard = mWicketsCardObservable.get();
-                player.set("R Dravid");
+                player.set("" + wicketsCard.player.name);
                 runs.set(wicketsCard.runs);
                 overs.set(wicketsCard.overs);
                 maiden.set(wicketsCard.maiden);
                 wickets.set(wicketsCard.wickets);
-                economy.set(wicketsCard.economy);
+                economy.set(((Double) wicketsCard.economy).intValue());
             }
         });
     }

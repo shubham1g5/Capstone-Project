@@ -18,6 +18,7 @@ public class MatchDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportPostponeEnterTransition();
         MatchDetailFragment detailFragment = findOrCreateViewFragment();
         MatchDetailViewModel detailVM = findOrCreateViewModel();
         detailFragment.setmMatchDetailViewModel(detailVM);
@@ -53,7 +54,6 @@ public class MatchDetailActivity extends AppCompatActivity {
         } else {
             // There is no ViewModel yet, create it.
             MatchDetailViewModel viewModel = new MatchDetailViewModel(
-                    getApplicationContext(),
                     ((MyApplication) getApplication()).getMatchesRepositoryComponent().getMatchesRepository());
 
             // and bind it to this Activity's lifecycle using the Fragment Manager.

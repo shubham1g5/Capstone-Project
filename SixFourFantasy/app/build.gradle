@@ -62,7 +62,6 @@ dependencies {
 
     // Dagger dependencies
     apt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
-    provided 'org.glassfish:javax.annotation:10.0-b28'
     compile "com.google.dagger:dagger:$rootProject.daggerVersion"
 
     testCompile "junit:junit:$rootProject.ext.junitVersion"
@@ -70,4 +69,8 @@ dependencies {
     androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile 'com.google.firebase:firebase-core:10.0.1'
+    compile 'com.google.firebase:firebase-crash:10.0.1'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
 }
+apply plugin: 'com.google.gms.google-services'

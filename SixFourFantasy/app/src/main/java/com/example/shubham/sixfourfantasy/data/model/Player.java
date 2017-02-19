@@ -10,7 +10,7 @@ import com.squareup.moshi.Json;
 
 public class Player implements Parcelable {
 
-    public String playerId;
+    public int playerId;
 
     @Json(name = "fullName")
     public String name;
@@ -23,8 +23,15 @@ public class Player implements Parcelable {
     @Json(name = "playerType")
     public PlayerType type;
 
+    public Player(int playerId, String name, String image, PlayerType type) {
+        this.playerId = playerId;
+        this.name = name;
+        this.image = image;
+        this.type = type;
+    }
+
     protected Player(Parcel in) {
-        playerId = in.readString();
+        playerId = in.readInt();
         name = in.readString();
         image = in.readString();
         type = PlayerType.valueOf(in.readString());
@@ -49,7 +56,7 @@ public class Player implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(playerId);
+        dest.writeInt(playerId);
         dest.writeString(name);
         dest.writeString(image);
         if (type != null) {

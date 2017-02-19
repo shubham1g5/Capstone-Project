@@ -5,4 +5,5 @@
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="colorAccent">#c8e8ff</color>
     <color name="cardBackground">#4dd0e1</color>
+    <color name="scoreCardBackground">#a1887f</color>
 </resources>

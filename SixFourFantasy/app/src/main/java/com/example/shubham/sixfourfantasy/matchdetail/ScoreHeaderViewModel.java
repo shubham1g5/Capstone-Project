@@ -8,7 +8,7 @@ public class ScoreHeaderViewModel extends BaseObservable {
     public static final int RUN_CARD_HEADER_TYPE = 1;
     public static final int WICKET_CARD_HEADER_TYPE = 2;
 
-    private final ObservableField<Integer> mCardType = new ObservableField<>();
+    public final ObservableField<Integer> mCardType = new ObservableField<>();
 
     public ScoreHeaderViewModel(int cardType) {
         mCardType.set(cardType);

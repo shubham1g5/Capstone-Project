@@ -12,16 +12,19 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/cardview_margin"
         android:layout_marginLeft="@dimen/cardview_margin"
         android:layout_marginRight="@dimen/cardview_margin"
         android:layout_marginTop="@dimen/cardview_margin"
-        app:columnCount="6">
+        app:columnCount="6"
+        android:layout_marginEnd="@dimen/cardview_margin"
+        android:layout_marginStart="@dimen/cardview_margin">
 
         <TextView
+            android:layout_width="@dimen/player_name_width"
             android:gravity="center_horizontal"
-            android:text="@{viewmodel.player.name}"
+            android:text="@{viewmodel.player}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="@color/textColorPrimary"
             app:layout_columnWeight="1"
@@ -30,7 +33,7 @@
 
         <TextView
             android:gravity="center_horizontal"
-            android:text="@{viewmodel.runs}"
+            android:text='@{"" + viewmodel.runs}'
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/textColorPrimary"
             app:layout_columnWeight="1"
@@ -41,7 +44,7 @@
         <TextView
             android:layout_width="0dp"
             android:gravity="center_horizontal"
-            android:text="@{viewmodel.balls}"
+            android:text='@{"" + viewmodel.balls}'
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/textColorPrimary"
             app:layout_columnWeight="1"
@@ -51,7 +54,7 @@
         <TextView
             android:layout_width="0dp"
             android:gravity="center_horizontal"
-            android:text="@{viewmodel.fours}"
+            android:text='@{"" + viewmodel.fours}'
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/textColorPrimary"
             app:layout_columnWeight="1"
@@ -62,7 +65,7 @@
         <TextView
             android:layout_width="0dp"
             android:gravity="center_horizontal"
-            android:text="@{viewmodel.sixes}"
+            android:text='@{"" + viewmodel.sixes}'
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/textColorPrimary"
             app:layout_columnWeight="1"
@@ -72,7 +75,7 @@
         <TextView
             android:layout_width="0dp"
             android:gravity="center_horizontal"
-            android:text="@{viewmodel.strikeRate}"
+            android:text='@{"" + viewmodel.strikeRate}'
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/textColorPrimary"
             app:layout_columnWeight="1"

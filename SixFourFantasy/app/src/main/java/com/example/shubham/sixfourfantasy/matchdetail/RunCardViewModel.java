@@ -8,12 +8,12 @@ import com.example.shubham.sixfourfantasy.data.model.RunsCard;
 
 public class RunCardViewModel extends BaseObservable {
 
-    private final ObservableField<String> player = new ObservableField<>();
-    private final ObservableField<Integer> runs = new ObservableField<>();
-    private final ObservableField<Integer> balls = new ObservableField<>();
-    private final ObservableField<Integer> fours = new ObservableField<>();
-    private final ObservableField<Integer> sixes = new ObservableField<>();
-    private final ObservableField<Double> strikeRate = new ObservableField<>();
+    public final ObservableField<String> player = new ObservableField<>();
+    public final ObservableField<Integer> runs = new ObservableField<>();
+    public final ObservableField<Integer> balls = new ObservableField<>();
+    public final ObservableField<Integer> fours = new ObservableField<>();
+    public final ObservableField<Integer> sixes = new ObservableField<>();
+    public final ObservableField<Integer> strikeRate = new ObservableField<>();
 
     private final ObservableField<RunsCard> mRunsCardObservable = new ObservableField<>();
 
@@ -22,12 +22,12 @@ public class RunCardViewModel extends BaseObservable {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
                 RunsCard runsCard = mRunsCardObservable.get();
-                player.set("R Dravid");
+                player.set("" + runsCard.player.name);
                 runs.set(runsCard.runs);
                 balls.set(runsCard.balls);
                 fours.set(runsCard.fours);
                 sixes.set(runsCard.sixes);
-                strikeRate.set(runsCard.strikeRate);
+                strikeRate.set(((Double) runsCard.strikeRate).intValue());
             }
         });
     }

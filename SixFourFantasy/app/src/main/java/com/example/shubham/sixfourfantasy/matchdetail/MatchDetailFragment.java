@@ -13,7 +13,7 @@ import com.example.shubham.sixfourfantasy.databinding.MatchDetailFragBinding;
 
 import java.util.ArrayList;
 
-public class MatchDetailFragment extends Fragment {
+public class MatchDetailFragment extends Fragment implements MatchDetailViewModel.OnStartFinishedCallback {
     private MatchDetailViewModel mMatchDetailViewModel;
     private MatchDetailFragBinding mMatchDetailFragBinding;
 
@@ -44,10 +44,17 @@ public class MatchDetailFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mMatchDetailViewModel.start();
+        mMatchDetailViewModel.start(this);
     }
 
     public void setmMatchDetailViewModel(MatchDetailViewModel matchDetailViewModel) {
         this.mMatchDetailViewModel = matchDetailViewModel;
+    }
+
+    @Override
+    public void onStartFinished() {
+        if (getActivity() != null) {
+            getActivity().supportStartPostponedEnterTransition();
+        }
     }
 }

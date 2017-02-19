@@ -22,6 +22,8 @@ public class WicketsCard implements Parcelable {
     public transient int matchId = -1;
     public transient int inningsNo = -1;
 
+    public transient Player player;
+
     public WicketsCard() {
     }
 
@@ -36,6 +38,7 @@ public class WicketsCard implements Parcelable {
         economy = in.readDouble();
         noBalls = in.readInt();
         wides = in.readInt();
+        player = in.readParcelable(Player.class.getClassLoader());
     }
 
     public static final Creator<WicketsCard> CREATOR = new Creator<WicketsCard>() {
@@ -67,6 +70,7 @@ public class WicketsCard implements Parcelable {
         dest.writeDouble(economy);
         dest.writeInt(noBalls);
         dest.writeInt(wides);
+        dest.writeParcelable(player, 0);
     }
 
     public ContentValues toContentValues() {

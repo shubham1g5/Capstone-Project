@@ -5,15 +5,19 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
-        android:allowBackup="true"
         android:name=".MyApplication"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".matches.MatchesActivity">
+        <activity
+            android:name=".matches.MatchesActivity"
+            android:theme="@style/AppTheme.Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,9 +25,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".matchdetail.MatchDetailActivity" />
-
-        <activity android:name=".addeditteam.AddEditTeamActivity"></activity>
+        <activity
+            android:name=".matchdetail.MatchDetailActivity"
+            android:theme="@style/AppTheme.Details" />
 
         <service
             android:name=".data.sync.MatchesSyncFirebaseJobService"
@@ -34,9 +38,26 @@
         </service>
 
         <provider
-            android:authorities="@string/content_authority"
             android:name=".data.source.local.MatchesProvider"
+            android:authorities="@string/content_authority"
             android:exported="false" />
+
+        <service
+            android:name=".widget.MatchesWidgetRemoteViewsService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <receiver
+            android:name=".widget.LiveMatchesWidgetProvider"
+            android:label="@string/title_widget_matches">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.example.shubham.sixfourfantasy.ACTION_DATA_UPDATED" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_matches" />
+        </receiver>
 
     </application>
 

@@ -59,11 +59,11 @@ public class MatchesRepository implements MatchesDataSource {
     public Observable<List<Match>> getMatches() {
         if (mRefreshData) {
             return mMatchesRemoteDataSource.getMatches()
-                    .flatMap(matches -> Observable.from(matches))
+                    .flatMap(Observable::from)
                     // Filtering international teams ODI and T20 matches
-                    .flatMap(match -> setMatchPlayers(match))
-                    .flatMap(match -> setMatchScores(match))
-                    .doOnNext(match -> mMatchesLocalDataSource.saveMatch(match))
+                    .flatMap(this::setMatchPlayers)
+                    .flatMap(this::setMatchScores)
+                    .doOnNext(mMatchesLocalDataSource::saveMatch)
                     .toList()
                     .doOnCompleted(() -> mRefreshData = false);
         }
@@ -94,7 +94,7 @@ public class MatchesRepository implements MatchesDataSource {
         } else {
 
             return mMatchesRemoteDataSource.getPlayersForMatch(match)
-                    .flatMap(teams -> Observable.from(teams))
+                    .flatMap(Observable::from)
                     .doOnNext(team -> {
                         if (match.team1.teamId == team.teamId) {
                             match.team1.players = team.players;

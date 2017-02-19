@@ -3,13 +3,15 @@ package com.example.shubham.sixfourfantasy.matches;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.util.Pair;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
+import android.view.View;
 
 import com.example.shubham.sixfourfantasy.MyApplication;
 import com.example.shubham.sixfourfantasy.R;
@@ -19,6 +21,7 @@ import com.example.shubham.sixfourfantasy.data.model.MatchStatus;
 import com.example.shubham.sixfourfantasy.data.sync.MatchesSyncUtils;
 import com.example.shubham.sixfourfantasy.matchdetail.MatchDetailActivity;
 import com.example.shubham.sixfourfantasy.util.ActivityUtils;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,8 @@ import static com.example.shubham.sixfourfantasy.matches.MatchesFragment.MATCH_T
 public class MatchesActivity extends AppCompatActivity implements MatchItemNavigator {
 
     public static final String EXTRA_MATCH = "extra_match";
+    private static final int UPCOMING_MATCH_CLICK_EVENT_ID = 1;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,7 @@ public class MatchesActivity extends AppCompatActivity implements MatchItemNavig
         setContentView(R.layout.matches_act);
 
         MatchesSyncUtils.initialize(getApplication());
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 //        ((CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout))
 //                .setTitle(getString(R.string.app_name));
@@ -89,8 +95,9 @@ public class MatchesActivity extends AppCompatActivity implements MatchItemNavig
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private static final int LIVE_TAB_INDEX = 0;
-        private static final int UPCOMING_TAB_INDEX = 1;
-        private static final int RESULTS_TAB_INDEX = 2;
+        private static final int RESULTS_TAB_INDEX = 1;
+        private static final int UPCOMING_TAB_INDEX = 2;
+
 
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
@@ -101,8 +108,8 @@ public class MatchesActivity extends AppCompatActivity implements MatchItemNavig
 
         private void initialize() {
             mFragmentTitleList.add(LIVE_TAB_INDEX, getString(R.string.live_tab_title));
-            mFragmentTitleList.add(UPCOMING_TAB_INDEX, getString(R.string.upcoming_tab_title));
             mFragmentTitleList.add(RESULTS_TAB_INDEX, getString(R.string.results_tab_title));
+            mFragmentTitleList.add(UPCOMING_TAB_INDEX, getString(R.string.upcoming_tab_title));
         }
 
         @Override
@@ -114,10 +121,10 @@ public class MatchesActivity extends AppCompatActivity implements MatchItemNavig
             switch (position) {
                 case LIVE_TAB_INDEX:
                     return MatchStatus.LIVE;
-                case UPCOMING_TAB_INDEX:
-                    return MatchStatus.UPCOMING;
                 case RESULTS_TAB_INDEX:
                     return MatchStatus.COMPLETED;
+                case UPCOMING_TAB_INDEX:
+                    return MatchStatus.UPCOMING;
                 default:
                     throw new IndexOutOfBoundsException("Position " + position + "is not implemented");
             }
@@ -135,11 +142,22 @@ public class MatchesActivity extends AppCompatActivity implements MatchItemNavig
     }
 
     @Override
-    public void openMatchDetails(Match match) {
-        Toast.makeText(this, "" + match.matchId, Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(this, MatchDetailActivity.class);
-        intent.putExtra(EXTRA_MATCH, match);
-        startActivity(intent);
+    public void openMatchDetails(Match match, View summaryView) {
+        if (match.status != MatchStatus.UPCOMING) {
+            Intent intent = new Intent(this, MatchDetailActivity.class);
+            intent.putExtra(EXTRA_MATCH, match);
+
+            ActivityOptionsCompat activityOptions =
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(this,
+                            new Pair<>(summaryView, getString(R.string.score_summary_transition_name)));
+
+            startActivity(intent, activityOptions.toBundle());
+        }else {
+            // Log the event to Firebase Analytics
+            Bundle bundle = new Bundle();
+            bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, UPCOMING_MATCH_CLICK_EVENT_ID);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        }
     }
 
 }

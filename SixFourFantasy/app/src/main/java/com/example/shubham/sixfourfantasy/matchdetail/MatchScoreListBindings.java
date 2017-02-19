@@ -3,7 +3,6 @@ package com.example.shubham.sixfourfantasy.matchdetail;
 import android.databinding.BindingAdapter;
 import android.support.v7.widget.RecyclerView;
 
-import com.example.shubham.sixfourfantasy.data.model.Inning;
 import com.example.shubham.sixfourfantasy.data.model.RunsCard;
 import com.example.shubham.sixfourfantasy.data.model.WicketsCard;
 

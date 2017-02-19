@@ -3,7 +3,6 @@ package com.example.shubham.sixfourfantasy.data.source.remote;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.example.shubham.sixfourfantasy.data.model.Inning;
 import com.example.shubham.sixfourfantasy.data.model.Match;
@@ -40,7 +39,7 @@ public class MatchesRemoteDataSource implements MatchesDataSource {
         return mMatchService.listMatches()
                 .subscribeOn(Schedulers.io())
                 .map(matchResponse -> matchResponse.matchList.matches)
-                .flatMap(matches -> Observable.from(matches))
+                .flatMap(Observable::from)
                 .filter(match -> {
                     try {
                         return match.matchTypeId == 0 && match.format != MatchFormat.Test && match.isValid();

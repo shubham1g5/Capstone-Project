@@ -3,8 +3,6 @@ package com.example.shubham.sixfourfantasy.matches;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,8 +22,6 @@ public class MatchesFragment extends Fragment {
     private MatchesViewModel mMatchesViewModel;
 
     private MatchesFragBinding mMatchesFragBinding;
-
-    private boolean startViewModel = false;
 
     public static MatchesFragment newInstance(MatchStatus matchType) {
         Bundle args = new Bundle();
@@ -54,7 +50,6 @@ public class MatchesFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setupListAdapter();
-        setupRefreshLayout();
     }
 
 
@@ -74,14 +69,4 @@ public class MatchesFragment extends Fragment {
         MatchesListAdapter mListAdapter = new MatchesListAdapter(new ArrayList<>(0), (MatchItemNavigator) getActivity());
         recyclerView.setAdapter(mListAdapter);
     }
-
-    private void setupRefreshLayout() {
-        final SwipeRefreshLayout swipeRefreshLayout = mMatchesFragBinding.refreshLayout;
-        swipeRefreshLayout.setColorSchemeColors(
-                ContextCompat.getColor(getActivity(), R.color.colorPrimary),
-                ContextCompat.getColor(getActivity(), R.color.colorAccent),
-                ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark)
-        );
-    }
-
 }

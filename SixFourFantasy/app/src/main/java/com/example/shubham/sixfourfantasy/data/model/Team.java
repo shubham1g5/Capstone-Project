@@ -1,9 +1,9 @@
 package com.example.shubham.sixfourfantasy.data.model;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
 
 import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract;
 
@@ -19,7 +19,7 @@ public class Team implements Parcelable {
 
     public List<Player> players = new ArrayList<>();
 
-    public Team(int teamId){
+    public Team(int teamId) {
         this.teamId = teamId;
     }
 
@@ -72,5 +72,14 @@ public class Team implements Parcelable {
         values.put(MatchesPersistenceContract.TeamEntry.COL_IMAGE, image);
         values.put(MatchesPersistenceContract.TeamEntry.COL_SYMBOL, symbol);
         return values;
+    }
+
+    public static Team from(Cursor teamsData) {
+        return new Team(
+                teamsData.getInt(MatchesPersistenceContract.TeamEntry.COL_TEAM_ID_INDEX),
+                teamsData.getString(MatchesPersistenceContract.TeamEntry.COL_NAME_INDEX),
+                teamsData.getString(MatchesPersistenceContract.TeamEntry.COL_IMAGE_INDEX),
+                teamsData.getString(MatchesPersistenceContract.TeamEntry.COL_SYMBOL_INDEX),
+                new ArrayList<>());
     }
 }

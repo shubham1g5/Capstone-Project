@@ -1,5 +1,7 @@
 package com.example.shubham.sixfourfantasy.matches;
 
+import android.view.View;
+
 import com.example.shubham.sixfourfantasy.MatchViewModel;
 
 public class MatchItemViewModel extends MatchViewModel {
@@ -14,7 +16,7 @@ public class MatchItemViewModel extends MatchViewModel {
     /**
      * Called by the Data Binding library when the row is clicked.
      */
-    public void matchClicked() {
-        mMatchItemNavigator.openMatchDetails(getMatch());
+    public void matchClicked(View view) {
+        mMatchItemNavigator.openMatchDetails(getMatch(), view);
     }
 }

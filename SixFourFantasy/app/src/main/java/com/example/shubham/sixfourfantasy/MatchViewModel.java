@@ -3,6 +3,7 @@ package com.example.shubham.sixfourfantasy;
 import android.databinding.BaseObservable;
 import android.databinding.Observable;
 import android.databinding.ObservableField;
+import android.view.View;
 
 import com.example.shubham.sixfourfantasy.data.model.Match;
 import com.example.shubham.sixfourfantasy.data.model.MatchStatus;
@@ -22,7 +23,6 @@ public class MatchViewModel extends BaseObservable {
     public final ObservableField<String> team2Score = new ObservableField<>();
     public final ObservableField<String> venue = new ObservableField<>();
     public final ObservableField<String> result = new ObservableField<>();
-//    public final ObservableList<Inning> innings = new ObservableArrayList<>();
 
     public final ObservableField<Boolean> resultAvailable = new ObservableField<>(false);
 
@@ -80,8 +80,8 @@ public class MatchViewModel extends BaseObservable {
         return mMatchObservable.get();
     }
 
-//    protected void setInnings(List<Inning> inningList) {
-//        innings.clear();
-//        innings.addAll(inningList);
-//    }
+    public void matchClicked(View view){
+        // Do nothing by default
+    }
+
 }

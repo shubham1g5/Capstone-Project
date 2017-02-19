@@ -2,7 +2,6 @@
 <layout>
 
     <data>
-
         <import type="android.view.View" />
 
         <variable
@@ -10,96 +9,138 @@
             type="com.example.shubham.sixfourfantasy.matchdetail.MatchDetailViewModel" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/draw_insets_frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/cardBackground">
+            android:background="?colorPrimary">
 
-            <include
-                layout="@layout/match_summary"
-                app:viewmodel="@{viewmodel}" />
-        </LinearLayout>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/cardview_margin"
-            android:layout_marginLeft="@dimen/cardview_margin"
-            android:layout_marginRight="@dimen/cardview_margin"
-            android:layout_marginTop="@dimen/cardview_margin"
-            android:background="@color/cardBackground"
-            android:foreground="?selectableItemBackground"
-            android:visibility="@{viewmodel.emptyRunsCards1 ? View.GONE : View.VISIBLE}">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/runcard1_recyclerview"
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:runcards="@{viewmodel.runsCards1}" />
-        </android.support.v7.widget.CardView>
+                android:background="@color/cardBackground"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
+                <include
+                    layout="@layout/match_item"
+                    app:viewmodel="@{viewmodel}" />
 
-        <android.support.v7.widget.CardView
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/app_bar_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                    app:contentInsetStart="72dp" />
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/cardview_margin"
-            android:layout_marginLeft="@dimen/cardview_margin"
-            android:layout_marginRight="@dimen/cardview_margin"
-            android:layout_marginTop="@dimen/cardview_margin"
-            android:background="@color/cardBackground"
-            android:foreground="?selectableItemBackground"
-            android:visibility="@{viewmodel.emptyWicketsCards1 ? View.GONE : View.VISIBLE}">
+            android:background="#ffff"
+            android:scrollbars="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/wicketcard1_recyclerview"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:wicketcards="@{viewmodel.wicketsCards1}" />
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/cardview_margin"
-            android:layout_marginLeft="@dimen/cardview_margin"
-            android:layout_marginRight="@dimen/cardview_margin"
-            android:layout_marginTop="@dimen/cardview_margin"
-            android:background="@color/cardBackground"
-            android:foreground="?selectableItemBackground"
-            android:visibility="@{viewmodel.emptyRunsCards2 ? View.GONE : View.VISIBLE}">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/runcard2_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:runcards="@{viewmodel.runsCards2}" />
-        </android.support.v7.widget.CardView>
+                android:orientation="vertical">
 
 
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/cardview_margin"
-            android:layout_marginLeft="@dimen/cardview_margin"
-            android:layout_marginRight="@dimen/cardview_margin"
-            android:layout_marginTop="@dimen/cardview_margin"
-            android:background="@color/cardBackground"
-            android:foreground="?selectableItemBackground"
-            android:visibility="@{viewmodel.emptyWicketsCards2 ? View.GONE : View.VISIBLE}">
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/cardview_margin"
+                    android:layout_marginLeft="@dimen/cardview_margin"
+                    android:layout_marginRight="@dimen/cardview_margin"
+                    android:layout_marginTop="@dimen/cardview_margin"
+                    android:foreground="?selectableItemBackground"
+                    android:visibility="@{viewmodel.emptyRunsCards1 ? View.GONE : View.VISIBLE}"
+                    app:cardBackgroundColor="@color/scoreCardBackground"
+                    android:layout_marginStart="@dimen/cardview_margin"
+                    android:layout_marginEnd="@dimen/cardview_margin">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/wicketcard2_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:wicketcards="@{viewmodel.wicketsCards2}" />
-        </android.support.v7.widget.CardView>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/runcard1_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:runcards="@{viewmodel.runsCards1}" />
+                </android.support.v7.widget.CardView>
 
-    </LinearLayout>
 
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/cardview_margin"
+                    android:layout_marginLeft="@dimen/cardview_margin"
+                    android:layout_marginRight="@dimen/cardview_margin"
+                    android:layout_marginTop="@dimen/cardview_margin"
+                    android:foreground="?selectableItemBackground"
+                    android:visibility="@{viewmodel.emptyWicketsCards1 ? View.GONE : View.VISIBLE}"
+                    app:cardBackgroundColor="@color/scoreCardBackground"
+                    android:layout_marginEnd="@dimen/cardview_margin"
+                    android:layout_marginStart="@dimen/cardview_margin">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/wicketcard1_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:wicketcards="@{viewmodel.wicketsCards1}" />
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/cardview_margin"
+                    android:layout_marginLeft="@dimen/cardview_margin"
+                    android:layout_marginRight="@dimen/cardview_margin"
+                    android:layout_marginTop="@dimen/cardview_margin"
+                    android:foreground="?selectableItemBackground"
+                    android:visibility="@{viewmodel.emptyRunsCards2 ? View.GONE : View.VISIBLE}"
+                    app:cardBackgroundColor="@color/scoreCardBackground"
+                    android:layout_marginEnd="@dimen/cardview_margin"
+                    android:layout_marginStart="@dimen/cardview_margin">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/runcard2_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:runcards="@{viewmodel.runsCards2}" />
+                </android.support.v7.widget.CardView>
+
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/cardview_margin"
+                    android:layout_marginLeft="@dimen/cardview_margin"
+                    android:layout_marginRight="@dimen/cardview_margin"
+                    android:layout_marginTop="@dimen/cardview_margin"
+                    android:foreground="?selectableItemBackground"
+                    android:visibility="@{viewmodel.emptyWicketsCards2 ? View.GONE : View.VISIBLE}"
+                    app:cardBackgroundColor="@color/scoreCardBackground"
+                    android:layout_marginStart="@dimen/cardview_margin"
+                    android:layout_marginEnd="@dimen/cardview_margin">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/wicketcard2_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:wicketcards="@{viewmodel.wicketsCards2}" />
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.design.widget.CoordinatorLayout>
 </layout>

@@ -11,26 +11,48 @@
     <android.support.v7.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/cardview_margin"
         android:layout_marginLeft="@dimen/cardview_margin"
         android:layout_marginRight="@dimen/cardview_margin"
         android:layout_marginTop="@dimen/cardview_margin"
-        app:columnCount="6">
+        app:columnCount="6"
+        android:layout_marginStart="@dimen/cardview_margin"
+        android:layout_marginEnd="@dimen/cardview_margin">
 
         <TextView
+            android:layout_width="@dimen/player_name_width"
             android:gravity="center_horizontal"
-            android:text="@{viewmodel.mCardType == 0 ? @string/batsmen : @string/bowler}"
+            android:text="@{viewmodel.mCardType == 1 ? @string/batsmen : @string/bowler}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textColor="@color/textColorPrimary"
             app:layout_columnWeight="1"
+            android:textColor="@color/colorAccent"
             app:layout_gravity="fill_horizontal" />
 
         <TextView
             android:gravity="center_horizontal"
-            android:text="@{viewmodel.mCardType == 0 ? @string/run : @string/over}"
+            android:text="@{viewmodel.mCardType == 1 ? @string/run : @string/over}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/textColorPrimary"
+            app:layout_columnWeight="1"
+            android:textColor="@color/colorAccent"
+            app:layout_gravity="fill_horizontal" />
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:gravity="center_horizontal"
+            android:text="@{viewmodel.mCardType == 1 ? @string/ball : @string/run}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_columnWeight="1"
+            android:textColor="@color/colorAccent"
+            app:layout_gravity="fill_horizontal" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:gravity="center_horizontal"
+            android:text="@{viewmodel.mCardType == 1 ? @string/four : @string/wicket}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colorAccent"
             app:layout_columnWeight="1"
             app:layout_gravity="fill_horizontal" />
 
@@ -38,37 +60,18 @@
         <TextView
             android:layout_width="0dp"
             android:gravity="center_horizontal"
-            android:text="@{viewmodel.mCardType == 0 ? @string/ball : @string/run}"
+            android:text="@{viewmodel.mCardType == 1 ? @string/six : @string/maiden}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/textColorPrimary"
+            android:textColor="@color/colorAccent"
             app:layout_columnWeight="1"
             app:layout_gravity="fill_horizontal" />
 
         <TextView
             android:layout_width="0dp"
             android:gravity="center_horizontal"
-            android:text="@{viewmodel.mCardType == 0 ? @string/four : @string/wicket}"
+            android:text="@{viewmodel.mCardType == 1 ? @string/strikeRate : @string/economy}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/textColorPrimary"
-            app:layout_columnWeight="1"
-            app:layout_gravity="fill_horizontal" />
-
-
-        <TextView
-            android:layout_width="0dp"
-            android:gravity="center_horizontal"
-            android:text="@{viewmodel.mCardType == 0 ? @string/six : @string/maiden}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/textColorPrimary"
-            app:layout_columnWeight="1"
-            app:layout_gravity="fill_horizontal" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:gravity="center_horizontal"
-            android:text="@{viewmodel.mCardType == 0 ? @string/strikeRate : @string/economy}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/textColorPrimary"
+            android:textColor="@color/colorAccent"
             app:layout_columnWeight="1"
             app:layout_gravity="fill_horizontal" />
     </android.support.v7.widget.GridLayout>

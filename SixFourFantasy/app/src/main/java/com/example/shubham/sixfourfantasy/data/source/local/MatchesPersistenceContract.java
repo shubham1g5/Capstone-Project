@@ -122,7 +122,7 @@ public class MatchesPersistenceContract {
         public static String[] RUNS_COLUMNS = new String[]{
                 COL_MATCH_ID,
                 COL_INNINGS_NO,
-                COL_PLAYER_ID,
+                TABLE_NAME + "." + COL_PLAYER_ID,
                 COL_RUNS,
                 COL_BALLS,
                 COL_FOURS,
@@ -179,7 +179,7 @@ public class MatchesPersistenceContract {
         public static String[] WICKETS_COLUMNS = new String[]{
                 COL_MATCH_ID,
                 COL_INNINGS_NO,
-                COL_PLAYER_ID,
+                TABLE_NAME + "." + COL_PLAYER_ID,
                 COL_RUNS,
                 COL_OVERS,
                 COL_MAIDEN,
@@ -267,11 +267,13 @@ public class MatchesPersistenceContract {
 
 
         public static String[] PLAYERS_COLUMNS = new String[]{
-                PlayerEntry._ID,
-                COL_PLAYER_ID,
                 COL_NAME,
                 COL_IMAGE,
                 COL_TYPE};
+
+        public static int COL_NAME_INDEX = 1;
+        public static int COL_IMAGE_INDEX = 2;
+        public static int COL_TYPE_INDEX = 3;
 
         public static Uri buildPlayersUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);

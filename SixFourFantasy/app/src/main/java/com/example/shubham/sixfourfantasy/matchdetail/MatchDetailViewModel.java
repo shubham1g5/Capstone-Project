@@ -1,31 +1,30 @@
 package com.example.shubham.sixfourfantasy.matchdetail;
 
-import android.content.Context;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
 
+import com.example.shubham.sixfourfantasy.BR;
 import com.example.shubham.sixfourfantasy.MatchViewModel;
 import com.example.shubham.sixfourfantasy.data.model.Inning;
 import com.example.shubham.sixfourfantasy.data.model.Match;
 import com.example.shubham.sixfourfantasy.data.model.RunsCard;
 import com.example.shubham.sixfourfantasy.data.model.WicketsCard;
 import com.example.shubham.sixfourfantasy.data.source.MatchesRepository;
+import com.google.firebase.crash.FirebaseCrash;
 
 
 public class MatchDetailViewModel extends MatchViewModel {
     private final MatchesRepository mMatchesRepository;
-    private final Context mContext;
 
     public final ObservableList<RunsCard> runsCards1 = new ObservableArrayList<>();
     public final ObservableList<RunsCard> runsCards2 = new ObservableArrayList<>();
     public final ObservableList<WicketsCard> wicketsCards1 = new ObservableArrayList<>();
     public final ObservableList<WicketsCard> wicketsCards2 = new ObservableArrayList<>();
 
-    public MatchDetailViewModel(Context context, MatchesRepository matchesRepository) {
+    public MatchDetailViewModel(MatchesRepository matchesRepository) {
         super();
         mMatchesRepository = matchesRepository;
-        mContext = context.getApplicationContext();
     }
 
     @Bindable
@@ -49,7 +48,7 @@ public class MatchDetailViewModel extends MatchViewModel {
     }
 
 
-    public void start() {
+    public void start(OnStartFinishedCallback onStartFinishedCallback) {
         Match match = getMatch();
         mMatchesRepository.getScoresForMatch(match)
                 .doOnNext(innings -> match.innings = innings)
@@ -61,35 +60,42 @@ public class MatchDetailViewModel extends MatchViewModel {
                             if (innings.size() > 1) {
                                 setScores(2, innings.get(1));
                             }
+                            onStartFinishedCallback.onStartFinished();
                         },
-                        Throwable::printStackTrace);
+                        throwable -> {
+                            throwable.printStackTrace();
+                            // reporting it to Firebase
+                            FirebaseCrash.report(throwable);
+                        });
     }
 
     private void setScores(int inningNo, Inning inning) {
-        switch (inningNo){
-//            case 1:
-//                runsCards1.clear();
-//                runsCards1.addAll(inning.runCards);
-//                notifyPropertyChanged(BR.emptyRuncards1);
-//
-//                wicketsCards1.clear();
-//                wicketsCards1.addAll(inning.wicketCards);
-//                notifyPropertyChanged(BR.emptyWicketcards1);
-//                break;
-//            case 2:
-//
-//                runsCards2.clear();
-//                runsCards2.addAll(inning.runCards);
-//                notifyPropertyChanged(BR.emptyRuncards2);
-//
-//                wicketsCards2.clear();
-//                wicketsCards2.addAll(inning.wicketCards);
-//                notifyPropertyChanged(BR.emptyWicketcards2);
-//                break;
-//            default:
-//                break;
+        switch (inningNo) {
+            case 1:
+                runsCards1.clear();
+                runsCards1.addAll(inning.runCards);
+                notifyPropertyChanged(BR.emptyRunsCards1);
+
+                wicketsCards1.clear();
+                wicketsCards1.addAll(inning.wicketCards);
+                notifyPropertyChanged(BR.emptyWicketsCards1);
+                break;
+            case 2:
+
+                runsCards2.clear();
+                runsCards2.addAll(inning.runCards);
+                notifyPropertyChanged(BR.emptyRunsCards2);
+
+                wicketsCards2.clear();
+                wicketsCards2.addAll(inning.wicketCards);
+                notifyPropertyChanged(BR.emptyWicketsCards2);
+                break;
+            default:
+                break;
         }
     }
 
-
+    public interface OnStartFinishedCallback {
+        void onStartFinished();
+    }
 }

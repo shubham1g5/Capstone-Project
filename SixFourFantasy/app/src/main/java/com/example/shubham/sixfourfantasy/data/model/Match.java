@@ -34,6 +34,9 @@ public class Match implements Parcelable {
     private static final int MAX_INTERNATIONAL_TEAM_ID = 10;
     private static final int MIN_INTERNATIONAL_TEAM_ID = 1;
 
+    // We are only showing matches in +- 1 Week
+    private static final int SHOW_MATCHES_IN_DAYS = 7;
+
     public int matchId;
     public String name;
     public Team team1;
@@ -148,7 +151,7 @@ public class Match implements Parcelable {
     }
 
     public boolean isValid() throws ParseException {
-        return isValidTeamId(team1.teamId) && isValidTeamId(team2.teamId) && TimeUtils.isInAMonth(startTime);
+        return isValidTeamId(team1.teamId) && isValidTeamId(team2.teamId) && TimeUtils.isInDaysInterval(startTime, SHOW_MATCHES_IN_DAYS);
     }
 
     public static Match from(Cursor data) {

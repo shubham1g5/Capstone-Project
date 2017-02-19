@@ -3,7 +3,6 @@ package com.example.shubham.sixfourfantasy.data.sync;
 import android.app.Application;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.example.shubham.sixfourfantasy.data.source.local.MatchesPersistenceContract;
@@ -58,7 +57,7 @@ public class MatchesSyncUtils {
      * immediate sync is required, this method will take care of making sure that sync occurs.
      *
      * @param application Context that will be passed to other methods and used to access the
-     *                ContentResolver
+     *                    ContentResolver
      */
     synchronized public static void initialize(@NonNull final Application application) {
 

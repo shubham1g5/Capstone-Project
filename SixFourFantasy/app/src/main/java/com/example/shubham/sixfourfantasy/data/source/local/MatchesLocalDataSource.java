@@ -8,10 +8,12 @@ import android.support.annotation.NonNull;
 import com.example.shubham.sixfourfantasy.data.model.Inning;
 import com.example.shubham.sixfourfantasy.data.model.Match;
 import com.example.shubham.sixfourfantasy.data.model.Player;
+import com.example.shubham.sixfourfantasy.data.model.PlayerType;
 import com.example.shubham.sixfourfantasy.data.model.RunsCard;
 import com.example.shubham.sixfourfantasy.data.model.Team;
 import com.example.shubham.sixfourfantasy.data.model.WicketsCard;
 import com.example.shubham.sixfourfantasy.data.source.MatchesDataSource;
+import com.example.shubham.sixfourfantasy.util.ArrayUtils;
 import com.squareup.sqlbrite.BriteContentResolver;
 import com.squareup.sqlbrite.SqlBrite;
 
@@ -60,7 +62,7 @@ public class MatchesLocalDataSource implements MatchesDataSource {
                 null,
                 null,
                 false
-        ).mapToOneOrDefault(cursor -> getTeam(cursor), null);
+        ).mapToOneOrDefault(this::getTeam, null);
     }
 
     @NonNull
@@ -121,36 +123,37 @@ public class MatchesLocalDataSource implements MatchesDataSource {
         // Emits runsCards for an inning
         Observable<List<RunsCard>> runsObservable = resolver.createQuery(
                 MatchesPersistenceContract.RunEntry.buildRunsUriWith(match.matchId),
-                MatchesPersistenceContract.RunEntry.RUNS_COLUMNS,
+                ArrayUtils.addAll(MatchesPersistenceContract.RunEntry.RUNS_COLUMNS, MatchesPersistenceContract.PlayerEntry.PLAYERS_COLUMNS),
                 null,
                 null,
                 MatchesPersistenceContract.RunEntry.COL_INNINGS_NO,
                 false
-        ).mapToList(cursor -> getRunsCard(cursor))
-                .flatMap(runsCards -> Observable.from(runsCards))
+        ).mapToList(this::getRunsCard)
+                .first()
+                .flatMap(Observable::from)
                 .groupBy(runsCard -> runsCard.inningsNo)
-                .flatMap(integerRunsCardGroupedObservable -> integerRunsCardGroupedObservable.toList());
-
+                .flatMap(Observable::toList);
 
         // Emits wicketsCards for an inning
         Observable<List<WicketsCard>> wicketsObservable = resolver.createQuery(
                 MatchesPersistenceContract.WicketEntry.buildWicketsUriWith(match.matchId),
-                MatchesPersistenceContract.WicketEntry.WICKETS_COLUMNS,
+                ArrayUtils.addAll(MatchesPersistenceContract.WicketEntry.WICKETS_COLUMNS, MatchesPersistenceContract.PlayerEntry.PLAYERS_COLUMNS),
                 null,
                 null,
                 MatchesPersistenceContract.RunEntry.COL_INNINGS_NO,
                 false
-        ).mapToList(cursor -> getWicketsCard(cursor))
-                .flatMap(wicketsCards -> Observable.from(wicketsCards))
+        ).mapToList(this::getWicketsCard)
+                .first()
+                .flatMap(Observable::from)
                 .groupBy(wicketsCard -> wicketsCard.inningsNo)
-                .flatMap(integerRunsCardGroupedObservable -> integerRunsCardGroupedObservable.toList());
+                .flatMap(Observable::toList);
 
         // Combine runcards and wicketCards for an inning into an inning object
         // and emit it as list of innings
         return Observable.zip(
                 runsObservable,
                 wicketsObservable,
-                (runsCards, wicketsCards) -> new Inning(runsCards, wicketsCards)
+                Inning::new
         ).toList();
     }
 
@@ -167,6 +170,17 @@ public class MatchesLocalDataSource implements MatchesDataSource {
         runsCard.strikeRate = cursor.getDouble(MatchesPersistenceContract.RunEntry.COL_STRIKE_RATE_INDEX);
         runsCard.fow = cursor.getString(MatchesPersistenceContract.RunEntry.COL_FOW_INDEX);
         runsCard.out = cursor.getString(MatchesPersistenceContract.RunEntry.COL_OUT_INDEX);
+
+        String playerType = cursor.getString(MatchesPersistenceContract.PlayerEntry.COL_TYPE_INDEX
+                + MatchesPersistenceContract.RunEntry.COL_OUT_INDEX);
+
+        runsCard.player = new Player(
+                runsCard.playerId,
+                cursor.getString(MatchesPersistenceContract.PlayerEntry.COL_NAME_INDEX + MatchesPersistenceContract.RunEntry.COL_OUT_INDEX),
+                cursor.getString(MatchesPersistenceContract.PlayerEntry.COL_IMAGE_INDEX + MatchesPersistenceContract.RunEntry.COL_OUT_INDEX),
+                playerType != null ? PlayerType.valueOf(playerType) : null
+        );
+
         return runsCard;
     }
 
@@ -174,15 +188,26 @@ public class MatchesLocalDataSource implements MatchesDataSource {
     private WicketsCard getWicketsCard(@NotNull Cursor cursor) {
         WicketsCard wicketsCard = new WicketsCard();
         wicketsCard.matchId = cursor.getInt(MatchesPersistenceContract.WicketEntry.COL_MATCH_ID_INDEX);
-        wicketsCard.matchId = cursor.getInt(MatchesPersistenceContract.WicketEntry.COL_INNINGS_NO_INDEX);
-        wicketsCard.matchId = cursor.getInt(MatchesPersistenceContract.WicketEntry.COL_PLAYER_ID_INDEX);
-        wicketsCard.matchId = cursor.getInt(MatchesPersistenceContract.WicketEntry.COL_RUNS_INDEX);
-        wicketsCard.matchId = cursor.getInt(MatchesPersistenceContract.WicketEntry.COL_OVERS_INDEX);
-        wicketsCard.matchId = cursor.getInt(MatchesPersistenceContract.WicketEntry.COL_MAIDEN_INDEX);
-        wicketsCard.matchId = cursor.getInt(MatchesPersistenceContract.WicketEntry.COL_WICKETS_INDEX);
-        wicketsCard.matchId = cursor.getInt(MatchesPersistenceContract.WicketEntry.COL_ECONOMY_INDEX);
-        wicketsCard.matchId = cursor.getInt(MatchesPersistenceContract.WicketEntry.COL_NO_BALLS_INDEX);
-        wicketsCard.matchId = cursor.getInt(MatchesPersistenceContract.WicketEntry.COL_WIDE_BALLS_INDEX);
+        wicketsCard.inningsNo = cursor.getInt(MatchesPersistenceContract.WicketEntry.COL_INNINGS_NO_INDEX);
+        wicketsCard.playerId = cursor.getInt(MatchesPersistenceContract.WicketEntry.COL_PLAYER_ID_INDEX);
+        wicketsCard.runs = cursor.getInt(MatchesPersistenceContract.WicketEntry.COL_RUNS_INDEX);
+        wicketsCard.overs = cursor.getInt(MatchesPersistenceContract.WicketEntry.COL_OVERS_INDEX);
+        wicketsCard.maiden = cursor.getInt(MatchesPersistenceContract.WicketEntry.COL_MAIDEN_INDEX);
+        wicketsCard.wickets = cursor.getInt(MatchesPersistenceContract.WicketEntry.COL_WICKETS_INDEX);
+        wicketsCard.economy = cursor.getInt(MatchesPersistenceContract.WicketEntry.COL_ECONOMY_INDEX);
+        wicketsCard.noBalls = cursor.getInt(MatchesPersistenceContract.WicketEntry.COL_NO_BALLS_INDEX);
+        wicketsCard.wides = cursor.getInt(MatchesPersistenceContract.WicketEntry.COL_WIDE_BALLS_INDEX);
+
+        String playerType = cursor.getString(MatchesPersistenceContract.PlayerEntry.COL_TYPE_INDEX
+                + MatchesPersistenceContract.RunEntry.COL_OUT_INDEX);
+
+        wicketsCard.player = new Player(
+                wicketsCard.playerId,
+                cursor.getString(MatchesPersistenceContract.PlayerEntry.COL_NAME_INDEX + MatchesPersistenceContract.WicketEntry.COL_WIDE_BALLS_INDEX),
+                cursor.getString(MatchesPersistenceContract.PlayerEntry.COL_IMAGE_INDEX + MatchesPersistenceContract.WicketEntry.COL_WIDE_BALLS_INDEX),
+                playerType != null ? PlayerType.valueOf(playerType) : null
+        );
+
         return wicketsCard;
     }
 

@@ -3,4 +3,11 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="cardview_margin">4dp</dimen>
+    <dimen name="player_name_width">80dp</dimen>
+    
+    <!--widget-->
+    <dimen name="matches_widget_default_height">180dp</dimen>
+    <dimen name="matches_widget_default_width">180dp</dimen>
+    <dimen name="matches_widget_min_resize_width">180dp</dimen>
+    <dimen name="matches_widget_min_resize_height">110dp</dimen>
 </resources>

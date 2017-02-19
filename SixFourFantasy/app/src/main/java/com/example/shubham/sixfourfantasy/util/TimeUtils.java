@@ -13,11 +13,11 @@ public class TimeUtils {
     private static final java.lang.String DISPLAY_TIME_FORMAT = "HH:mm z";
     private static final java.lang.String DISPLAY_DATE_FORMAT = "MMM dd, yyyy";
 
-    public static boolean isInAMonth(String time) throws ParseException {
+    public static boolean isInDaysInterval(String time, int days) throws ParseException {
         Calendar timeCal = Calendar.getInstance();
         timeCal.setTime(getDate(time));
         Calendar now = Calendar.getInstance();
-        return Math.abs(now.get(Calendar.DAY_OF_YEAR) - timeCal.get(Calendar.DAY_OF_YEAR)) <= 31;
+        return Math.abs(now.get(Calendar.DAY_OF_YEAR) - timeCal.get(Calendar.DAY_OF_YEAR)) <= days;
     }
 
     public static String getTimeWithZ(String startTime) throws ParseException {
