@@ -9,7 +9,6 @@ A simple cricket app that allows you to see ongoing, past and upcoming matches w
 - RxJava/RxAndroid streams to interact with async data apis.
 - Content Provider to store matches locally.
 - App Loaders to provide data from content providers.
-- User data gets stored and synced with [Firebase Realtime DB](https://firebase.google.com/docs/database/?gclid=CjwKEAiArIDFBRCe_9DJi6Or0UcSJAAK1nFv97quw8-bzf1h_bWYTY2twN47H7ENfnBJIlqA3C4eeRoCv5zw_wcB).
 - [Firebase JobDispatcher](https://github.com/firebase/firebase-jobdispatcher-android) for scheduling regular match data requests.
 - [Retrofit2](https://square.github.io/retrofit/) is used for making http requests with Moshi to parse the Json response. 
 
