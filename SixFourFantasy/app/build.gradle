@@ -1,11 +1,25 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'com.google.gms.google-services'
+
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
+
+    signingConfigs {
+        config {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
-
     defaultConfig {
         applicationId "com.example.shubham.sixfourfantasy"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -14,23 +28,20 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
-
     buildTypes.each {
         it.buildConfigField 'String', 'CRICKET_SCORE_API_KEY', MyCricketScoreApiKey
     }
-
     dataBinding {
         enabled = true
     }
@@ -44,7 +55,6 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
     compile "com.android.support:gridlayout-v7:$rootProject.supportLibraryVersion"
     compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
-
     compile "com.google.guava:guava:$rootProject.guavaVersion"
     compile "com.facebook.stetho:stetho:$rootProject.stethoVersion"
     compile "com.squareup.picasso:picasso:$rootProject.picassoVersion"
@@ -55,6 +65,8 @@ dependencies {
 
     // Firebase
     compile "com.firebase:firebase-jobdispatcher:$rootProject.firebaseJobDispatcherVersion"
+    compile "com.google.firebase:firebase-core:$rootProject.firebaseVersion"
+    compile "com.google.firebase:firebase-crash:$rootProject.firebaseVersion"
 
     // Reactive libs
     compile "io.reactivex:rxandroid:$rootProject.rxandroidVersion"
@@ -65,12 +77,9 @@ dependencies {
     compile "com.google.dagger:dagger:$rootProject.daggerVersion"
 
     testCompile "junit:junit:$rootProject.ext.junitVersion"
-
     androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.google.firebase:firebase-core:10.0.1'
-    compile 'com.google.firebase:firebase-crash:10.0.1'
+
     provided 'org.glassfish:javax.annotation:10.0-b28'
 }
-apply plugin: 'com.google.gms.google-services'

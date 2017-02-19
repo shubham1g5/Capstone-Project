@@ -24,7 +24,7 @@ import rx.schedulers.Schedulers;
 
 public class MatchesSyncUtils {
 
-    private static final int SYNC_INTERVAL_HOURS = 24;
+    private static final int SYNC_INTERVAL_HOURS = 4;
     private static final int SYNC_INTERVAL_SECONDS = (int) TimeUnit.HOURS.toSeconds(SYNC_INTERVAL_HOURS);
     private static final int SYNC_FLEXTIME_SECONDS = SYNC_INTERVAL_SECONDS / 3;
 
