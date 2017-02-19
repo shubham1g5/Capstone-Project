@@ -1,19 +1,6 @@
 # SixFourFantasy
 
-Six Four Fantasy is an extremely addictive cricket fantasy game that allows you to build your own team and earn fantasy points based on how your team players  actually performs  in real world cricket matches. But there is a catch! Unlike all other cricket fantasy games here you only earn points for the boundaries hit by your batsmen while losing points for the runs committed by your bowlers.
-
-## Features
-
-Six Four Fantasy has following features:
-
-- Users can see ongoing and upcoming matches.
-- Users can see scores and their fantasy points for the ongoing matches.
-- Users can see results and fantasy points of matches concluded in past.
-- Users can build their fantasy team for upcoming matches by selecting 11 players of their choice out of all available players.
-- Users can see their rank and a leaderboard for all the matches ongoing or concluded in past.
-- App sends notification to the user about the upcoming matches of their home team.
-
-Please refer to the document [here](https://github.com/shubham1g5/SixFourFantasy/blob/master/Capstone_Stage1.pdf) for more detailed features and UI mocks.
+A simple cricket app that allows you to see ongoing, past and upcoming matches with their scores.
 
 ## Implementation Features
 
