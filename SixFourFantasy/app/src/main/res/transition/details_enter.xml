@@ -6,6 +6,7 @@
         <targets>
             <target android:targetId="@id/scrollview" />
             <target android:excludeId="@android:id/statusBarBackground" />
+            <target android:targetId="@id/app_bar_layout" />
             <target android:excludeId="@android:id/navigationBarBackground" />
         </targets>
     </fade>

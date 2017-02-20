@@ -42,11 +42,7 @@ public class MatchesActivity extends AppCompatActivity implements MatchItemNavig
         MatchesSyncUtils.initialize(getApplication());
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-//        ((CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout))
-//                .setTitle(getString(R.string.app_name));
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
-//        toolbar.setTitle(getString(R.string.app_name));
         setSupportActionBar(toolbar);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
