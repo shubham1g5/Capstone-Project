@@ -48,7 +48,6 @@ public class MatchesActivity extends AppCompatActivity implements MatchItemNavig
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
 //        toolbar.setTitle(getString(R.string.app_name));
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
